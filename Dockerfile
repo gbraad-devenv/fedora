@@ -7,7 +7,8 @@ RUN dnf install -y git && \
     dnf remove -y vim-minimal && \
     dnf install -y vim && \
     dnf install -y tmux && \
-    dnf install -y zsh
+    dnf install -y zsh && \
+    dnf clean all
 
 RUN curl -sSL http://install.ohmyz.sh | sh
 
