@@ -4,9 +4,7 @@ Personal development environment
 Docker container image my personal development environment.
 
 
-Available as an automated build from the Docker registry.
-
-  https://hub.docker.com/r/gbraad/dev/
+Available as an [automated build](https://hub.docker.com/r/gbraad/dev/) from the Docker registry.
 
 
 Authors

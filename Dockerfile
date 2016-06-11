@@ -1,15 +1,9 @@
 FROM fedora:23
 MAINTAINER Gerard Braad <me@gbraad.nl>
 
-# Install tools
-RUN dnf install -y git && \
-    dnf install -y htop && \
-    dnf remove -y vim-minimal && \
-    dnf install -y vim && \
-    dnf install -y tmux && \
-    dnf install -y zsh && \
-    dnf clean all
-
-RUN curl -sSL http://install.ohmyz.sh | sh
+# Use a script to configure the container. This way we can
+# split up the operations and do it all in a single layer.
+ADD run_container.sh /tmp/
+RUN /tmp/run_container.sh
 
 CMD ["/bin/zsh"]
