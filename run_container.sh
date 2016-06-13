@@ -5,13 +5,9 @@
 
 # Install tools
 dnf remove -y vim-minimal
-
 dnf install -y \
     git \
     htop
-
-# Clean up
-dnf clean all
 
 # Install Oh-my-zsh
 # curl -sSL http://install.ohmyz.sh | sh
@@ -19,3 +15,6 @@ dnf clean all
 # Install personal dotfiles
 cd root
 curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
+
+# Clean up
+dnf clean all
