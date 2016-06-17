@@ -7,14 +7,17 @@
 dnf remove -y vim-minimal
 dnf install -y \
     git \
+    ansible \
+    python-pip \
     htop
 
 # Install Oh-my-zsh
 # curl -sSL http://install.ohmyz.sh | sh
 
 # Install personal dotfiles
-cd root
-curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
+cd /tmp
+curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.yml -o install.yml
+ansible-playbook install.yml
 
 # Clean up
 dnf clean all
