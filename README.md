@@ -6,6 +6,13 @@ Gerard Braad's development environment
 
 Docker container image my personal development environment.
 
+Contains:
+  * Personal [dotfiles](https://github.com/gbraad/dotfiles)
+    * vim
+    * tmux
+    * ...
+  * ansible
+  * and more to come...
 
 Available as an [automated build](https://hub.docker.com/r/gbraad/dev/) from the Docker registry.
 
