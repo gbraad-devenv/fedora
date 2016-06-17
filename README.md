@@ -1,5 +1,8 @@
-Personal development environment
-================================
+Gerard Braad's development environment
+======================================
+
+!["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
+
 
 Docker container image my personal development environment.
 
