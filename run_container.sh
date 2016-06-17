@@ -9,6 +9,7 @@ dnf install -y \
     git \
     ansible \
     python-pip \
+    python2-dnf \
     htop
 
 # Install Oh-my-zsh
