@@ -18,8 +18,9 @@ Contains:
 Usage
 -----
 
-Available as an [automated build](https://hub.docker.com/r/gbraad/dev/) from the Docker
-registry and as an [OpenStack Heat Template](https://github.com/gbraad/openstack/heat-templates/).
+  * Docker container  
+    [automated build](https://hub.docker.com/r/gbraad/devenv/), [source](https://github.com/gbraad/docker-devenv)
+  * OpenStack [Heat Template](https://github.com/gbraad/openstack-heat-templates/blob/master/create-devenv.yml)
 
 
 Authors

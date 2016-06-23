@@ -24,4 +24,3 @@ su - gbraad -c "ansible-playbook /tmp/install.yml"
 
 # Clean up
 dnf clean all
-
