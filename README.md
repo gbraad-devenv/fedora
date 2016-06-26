@@ -14,7 +14,7 @@ Contains:
   * ansible
   * and more to come...
 
-Available as an [automated build](https://hub.docker.com/r/gbraad/dev/) from the Docker registry.
+Available as an [automated build](https://hub.docker.com/r/gbraad/devenv/) from the Docker registry.
 
 
 Authors
