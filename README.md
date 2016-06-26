@@ -17,6 +17,14 @@ Contains:
 Available as an [automated build](https://hub.docker.com/r/gbraad/devenv/) from the Docker registry.
 
 
+Usage
+-----
+
+```
+$ docker run -it --rm -u $(id -u):$(id -g) -v `pwd`:/workspace gbraad/devenv 
+```
+
+
 Authors
 -------
 
