@@ -9,5 +9,8 @@ RUN /tmp/run_container.sh
 RUN mkdir /workspace
 VOLUME /workspace
 
+ENV UID 1000
+ENV GID 1000
+
 ADD run_usercommand.sh /tmp/
 CMD ["/tmp/run_usercommand.sh"]

@@ -4,7 +4,7 @@ Gerard Braad's development environment
 !["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
 
 
-Docker container image my personal development environment.
+Docker container image with my personal development environment.
 
 Contains:
   * Personal [dotfiles](https://github.com/gbraad/dotfiles)
@@ -21,7 +21,9 @@ Usage
 -----
 
 ```
-$ docker run -it --rm -u $(id -u):$(id -g) -v `pwd`:/workspace gbraad/devenv 
+$ alias devenv='docker run -it --rm -v `pwd`:/workspace gbraad/devenv'
+$ cd ~/Projects/[something]
+$ devenv 
 ```
 
 
