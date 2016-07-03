@@ -4,9 +4,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "fedora/24-cloud-base"
 
-  config.vm.provider "virtualbox" do |vbox|
-    vbox.name = "Development environment"
-    vbox.customize ["modifyvm", :id, "--memory", "2048"]
+  config.vm.provider "libvirt" do |libvirt, override|
+    libvirt.cpus = 2
+    libvirt.memory = 2048
+    libvirt.driver = 'kvm'
+    libvirt.nested = true
+    libvirt.storage :file, :size => '20G'
   end
   
   #config.vm.provision "ansible" do |ansible|
