@@ -18,7 +18,7 @@ Contains:
 Usage
 -----
 
-  * Vagrant
+  * [Vagrant](vagrant.md)
   * [Docker container](docker.md), [automated build](https://hub.docker.com/r/gbraad/devenv/)
   * OpenStack [Heat Template](https://github.com/gbraad/openstack-heat-templates/blob/master/create-devenv.yml)
 
