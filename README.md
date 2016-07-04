@@ -4,7 +4,7 @@ Gerard Braad's development environment
 !["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
 
 
-Installation script for my personal development environment.
+Installation and deploymnent scripts for my personal development environment.
 
 Contains:
   * Personal [dotfiles](https://github.com/gbraad/dotfiles)
@@ -18,7 +18,7 @@ Contains:
 Usage
 -----
 
-  * [Vagrant](vagrant.md)
+  * [Vagrant box](vagrant.md)
   * [Docker container](docker.md), [automated build](https://hub.docker.com/r/gbraad/devenv/)
   * OpenStack [Heat Template](https://github.com/gbraad/openstack-heat-templates/blob/master/create-devenv.yml)
 
