@@ -4,7 +4,7 @@ Gerard Braad's development environment
 !["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
 
 
-Vagrant image with my personal development environment.
+Vagrant box with my personal development environment.
 
 
 Usage
