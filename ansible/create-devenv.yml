@@ -1,0 +1,21 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: localhost
+
+  tasks:
+  - name: Create DevEnv
+    os_server:
+      state: present
+      cloud: {{cloud}}
+      name: devenv
+      image: Fedora23
+      key_name: {{key}}
+      network: public
+      flavor: 1
+      userdata: >-
+        #!/usr/bin/env bash
+        # Root password
+        sudo echo root:%root_password% | chpasswd
+        # Installation script
+        curl -sSL https://raw.githubusercontent.com/gbraad/devenv/master/scripts/install.sh -o /tmp/install.sh
+        bash /tmp/install.sh
