@@ -3,13 +3,13 @@
 - hosts: localhost
 
   tasks:
-  - name: Create DevEnv
+  - name: Create DevEnv instance
     os_server:
       state: present
-      cloud: {{cloud}}
-      name: devenv
+      cloud: "{{ cloud }}"
+      name: "devenv"
       image: Fedora23
-      key_name: {{key}}
+      key_name: "{{ key }}"
       network: public
       flavor: 1
       userdata: >-
