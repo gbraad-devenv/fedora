@@ -5,11 +5,16 @@ Gerard Braad's development environment
 
 
 Ansible playbook to create my personal development environment on an OpenStack cloud provider.
-Make sure you have [shade](https://github.com/openstack-infra/shade) installed.
 
 
 Usage
 -----
+Make sure you have [shade](https://github.com/openstack-infra/shade) installed.
+```
+$ pip install shade
+```
+
+The variable `cloud` will refer to the configured cloud configuration in your `clouds.yaml`.
 
 ```
 $ ansible-playbook create-devenv-openstack.yml \
