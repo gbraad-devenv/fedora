@@ -21,6 +21,7 @@ Usage
   * [Vagrant box](docs/vagrant.md)
   * [Docker container](docs/docker.md), [automated build](https://hub.docker.com/r/gbraad/devenv/)
   * OpenStack [Heat Template](docs/heat.md)
+  * [Ansible playbook](docs/ansible.md) for deployment
 
 
 Authors
