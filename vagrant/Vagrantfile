@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #end
   
   config.vm.provision "shell" do |shell|
-    shell.path = "./install.sh"
+    shell.path = "../scripts/install.sh"
   end
 
 end

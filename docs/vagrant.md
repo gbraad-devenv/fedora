@@ -11,6 +11,7 @@ Usage
 -----
 
 ```
+$ cd vagrant
 $ vagrant up
 ```
 
