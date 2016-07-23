@@ -5,6 +5,7 @@
 
 # Install tools
 yum remove -y vim-minimal
+yum install -y epel-release
 yum install -y \
     sudo \
     git \
