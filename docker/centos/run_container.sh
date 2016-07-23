@@ -21,10 +21,12 @@ yum install -y \
 adduser gbraad
 echo "gbraad ALL=(root) NOPASSWD:ALL" | tee -a /etc/sudoers.d/gbraad
 chmod 0440 /etc/sudoers.d/gbraad
+sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
 
 # Install personal dotfiles
 curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.yml -o /tmp/install.yml
 su - gbraad -c "ansible-playbook /tmp/install.yml"
 
 # Clean up
+sed -i 's/Defaults    !requiretty/Defaults    requiretty/g' /etc/sudoers
 yum clean all
