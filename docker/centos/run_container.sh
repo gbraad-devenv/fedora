@@ -11,8 +11,8 @@ yum install -y \
     git \
     ansible \
     python-pip \
-    python2-dnf \
-    htop
+    htop \
+    vim-enhanced
 
 # Install Oh-my-zsh
 # curl -sSL http://install.ohmyz.sh | sh
