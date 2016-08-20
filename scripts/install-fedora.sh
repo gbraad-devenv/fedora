@@ -22,6 +22,7 @@ chmod 0440 /etc/sudoers.d/gbraad
 # Install personal dotfiles
 curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.yml -o /tmp/install.yml
 su - gbraad -c "ansible-playbook /tmp/install.yml"
+rm -f /tmp/install.yml
 
 # Clean up
 dnf clean all
