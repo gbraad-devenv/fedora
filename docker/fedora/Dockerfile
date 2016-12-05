@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/gbraad/fedora:24
+FROM fedora:25
 MAINTAINER Gerard Braad <me@gbraad.nl>
 
 # Use a script to configure the container. This way we can

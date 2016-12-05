@@ -4,8 +4,8 @@ build_fedora:
   - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/gbraad/devenv:f24 ./docker/fedora
-    - docker push registry.gitlab.com/gbraad/devenv:f24
+    - docker build -t registry.gitlab.com/gbraad/devenv:f25 ./docker/fedora
+    - docker push registry.gitlab.com/gbraad/devenv:f25
   only:
     - master
 
