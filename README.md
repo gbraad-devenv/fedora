@@ -22,7 +22,7 @@ Usage
   * Docker/Podman [container](docs/docker.md)
   * OpenStack [Heat Template](docs/heat.md)
   * [Ansible playbook](docs/ansible.md) for deployment
-  * GitPod [custom image](https://gbraad.nl/devenv/new)
+  * GitPod [custom image](https://gbraad.nl/devenv)
 
 
 Authors
