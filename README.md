@@ -19,9 +19,10 @@ Usage
 -----
 
   * [Vagrant box](docs/vagrant.md)
-  * [Docker container](docs/docker.md)
+  * Docker/Podman [container](docs/docker.md)
   * OpenStack [Heat Template](docs/heat.md)
   * [Ansible playbook](docs/ansible.md) for deployment
+  * GitPod container image
 
 
 Authors

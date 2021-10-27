@@ -1,0 +1,18 @@
+image:
+  file: ./gitpod/Dockerfile
+
+experimentalNetwork: true
+
+tasks:
+  - init: >
+      ./gitpod/install.sh
+  - name: tailscaled
+    command: |
+      sudo tailscaled
+  - name: tailscale
+    command: |
+      sudo -E tailscale up --hostname "gitpod-${GITPOD_WORKSPACE_ID}" \
+                           --authkey "${TAILSCALE_AUTHKEY}"
+vscode:
+  extensions:
+    - ms-vscode.Theme-TomorrowKit
