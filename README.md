@@ -4,7 +4,7 @@ Gerard Braad's development environment
 !["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
 
 
-Installation and deploymnent scripts for my personal development environment.
+Installation and deployment scripts for my personal development environment.
 
 Contains:
   * Personal [dotfiles](https://github.com/gbraad/dotfiles)
