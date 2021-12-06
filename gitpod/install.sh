@@ -5,7 +5,6 @@ if [ ! -d "~/.dotfiles" ]; then
     mv ~/.bashrc-nochsh ~/.bashrc 
 fi
 
-rm -rf /workspace/devenv &&
-mkdir /workspace/devenv
+rm -rf /workspace/devenv
 
 ln -s /workspace/devenv/ ~/Projects
