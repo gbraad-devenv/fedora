@@ -76,6 +76,8 @@ RUN dnf install -y \
 
 # graphical
 RUN dnf install -y \
+        novnc \
+        x11vnc \
         i3 \
         python3-i3ipc \
         feh \
