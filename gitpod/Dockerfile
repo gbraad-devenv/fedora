@@ -43,6 +43,7 @@ RUN dnf install -y \
 
 # optiona
 RUN dnf install -y \
+        python3-pip \
         python3-pygments \
     && dnf clean all \
     && rm -rf /var/cache/yum
@@ -92,4 +93,4 @@ RUN dnf install -y \
         
 USER gitpod
 
-#RUN pip install pygments-style-tomorrownightbright
+RUN pip install pygments-style-tomorrownightbright
