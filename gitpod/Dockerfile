@@ -92,4 +92,4 @@ RUN dnf install -y \
         
 USER gitpod
 
-RUN pip install pygments-style-tomorrownightbright
+#RUN pip install pygments-style-tomorrownightbright
