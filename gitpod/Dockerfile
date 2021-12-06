@@ -31,7 +31,6 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-
 # fonts
 RUN dnf install -y \
         adobe-source-han-mono-fonts \
@@ -57,7 +56,6 @@ RUN dnf install -y \
         vim-syntastic-yaml \
         vim-syntastic-json \
         vim-syntastic-go \
-        vim-syntastic-javascript \
         vim-syntastic-zsh \
         vim-airline \
         vim-go \
