@@ -11,3 +11,4 @@ if [ ! -d "~/.dotfiles" ]; then
     mv ~/.bashrc-nochsh ~/.bashrc 
 fi
 
+exit 0
