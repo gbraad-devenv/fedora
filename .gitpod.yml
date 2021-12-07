@@ -1,5 +1,4 @@
-# v0.1.0 sha256:adb76dcf2cccd58f3e65e39f81df4cf64381c71c6b266bf0ec112ca64814244d
-image: ghcr.io/gbraad/gitpod-devenv:latest
+image: ghcr.io/gbraad/gitpod-devenv:v0.2.2
 
 experimentalNetwork: true
 

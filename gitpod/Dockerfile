@@ -99,6 +99,12 @@ RUN dnf install -y \
         openssh-server \
     && dnf clean all \
     && rm -rf /var/cache/yum
+
+RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo \
+    && dnf install -y \
+       gh \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
         
 USER gitpod
 
