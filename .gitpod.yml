@@ -12,6 +12,9 @@ tasks:
     command: |
       sudo -E tailscale up --hostname "gitpod-${GITPOD_WORKSPACE_ID}" \
                            --authkey "${TAILSCALE_AUTHKEY}"
+  - name: github
+    command: |
+      gh auth login -h github.com -w
 
 ports:
   - port: 22
