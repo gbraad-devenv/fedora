@@ -25,6 +25,9 @@ Usage
   * GitPod [custom image](https://gbraad.nl/devenv)
 
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gbraad/devenv)
+
+
 Authors
 -------
 
