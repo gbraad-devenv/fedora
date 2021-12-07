@@ -16,7 +16,9 @@ RUN dnf install -y dnf-plugins-core git-core \
 
 # install tailscale
 RUN dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo \
-    && dnf install -y tailscale
+    && dnf install -y tailscale \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
 
 RUN curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
 
@@ -90,6 +92,11 @@ RUN dnf install -y \
         vgrep \
         fd-find \
         ripgrep \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+        
+RUN dnf install -y \
+        openssh-server \
     && dnf clean all \
     && rm -rf /var/cache/yum
         
