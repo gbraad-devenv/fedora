@@ -1,3 +1,4 @@
+# v0.1.0 sha256:adb76dcf2cccd58f3e65e39f81df4cf64381c71c6b266bf0ec112ca64814244d
 image: ghcr.io/gbraad/gitpod-devenv:latest
 
 experimentalNetwork: true
@@ -15,3 +16,4 @@ tasks:
 vscode:
   extensions:
     - ms-vscode.Theme-TomorrowKit
+
