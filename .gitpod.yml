@@ -5,6 +5,14 @@ experimentalNetwork: true
 tasks:
   - init: >
       ./gitpod/install.sh
+  - name: dotfiles
+    command: |
+      if [ ! -d "~/.dotfiles" ]; then
+        cd /tmp
+        curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh -o /tmp/install.sh &&
+        sh /tmp/install.sh &&
+        mv ~/.bashrc-nochsh ~/.bashrc
+      fi
   - name: tailscaled
     command: |
       sudo tailscaled
@@ -15,6 +23,9 @@ tasks:
   - name: github
     command: |
       gh auth login -h github.com -w
+  - name: sshd
+    command: |
+      sudo ssh-keygen -A && sudo /usr/sbin/sshd; exit 0
 
 ports:
   - port: 22
