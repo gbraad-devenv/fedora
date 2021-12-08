@@ -25,7 +25,8 @@ tasks:
       gh auth login -h github.com -w
   - name: sshd
     command: |
-      sudo ssh-keygen -A && sudo /usr/sbin/sshd; exit 0
+      sudo ssh-keygen -A && sudo /usr/sbin/sshd
+      curl https://github.com/gbraad.keys | tee -a ~/.ssh/authorized_keys
 
 ports:
   - port: 22
