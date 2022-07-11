@@ -1,4 +1,4 @@
-image: ghcr.io/gbraad/gitpod-devenv:0.3.0
+image: ghcr.io/gbraad/gitpod-devenv:0.3.1
 
 experimentalNetwork: true
 
@@ -13,13 +13,9 @@ tasks:
         sh /tmp/install.sh &&
         mv ~/.bashrc-nochsh ~/.bashrc
       fi
-  - name: tailscaled
-    command: |
-      sudo tailscaled
   - name: tailscale
     command: |
-      sudo -E tailscale up --hostname "gitpod-${GITPOD_WORKSPACE_ID}" \
-                           --authkey "${TAILSCALE_AUTHKEY}"
+      sudo /etc/init.d/tailscaled start
   - name: github
     command: |
       gh auth login -h github.com -w

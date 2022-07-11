@@ -1,6 +1,2 @@
-FROM ghcr.io/gbraad/gitpod-devenv:0.3.0
+FROM ghcr.io/gbraad/gitpod-devenv:0.3.1
 USER root
-
-COPY github/tailscaled /etc/init.d/tailscaled
-RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
-
