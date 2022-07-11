@@ -25,7 +25,11 @@ Usage
   * GitPod [custom image](https://gbraad.nl/devenv)
 
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gbraad/devenv)
+Quickstart links
+----------------
+
+  * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/gbraad/devenv)
+  * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 
 Authors
