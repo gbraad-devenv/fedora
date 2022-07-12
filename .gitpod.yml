@@ -13,9 +13,6 @@ tasks:
         sh /tmp/install.sh &&
         mv ~/.bashrc-nochsh ~/.bashrc
       fi
-  - name: tailscale
-    command: |
-      sudo /etc/init.d/tailscaled start
   - name: github
     command: |
       gh auth login -h github.com -w
@@ -23,6 +20,9 @@ tasks:
     command: |
       sudo ssh-keygen -A && sudo /usr/sbin/sshd
       curl https://github.com/gbraad.keys | tee -a ~/.ssh/authorized_keys
+  - name: tailscale
+    command: |
+      sudo /etc/init.d/tailscaled start
 
 ports:
   - port: 22
