@@ -1,0 +1,6 @@
+FROM ghcr.io/gbraad/devenv/dotfiles:37
+
+USER root
+
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]
