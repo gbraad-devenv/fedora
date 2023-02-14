@@ -18,14 +18,25 @@ Contains:
 Usage
 -----
 
-  * Docker/Podman [container](docs/podman.md)
+### Cloud
+
+  * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/gbraad/devenv)
+  * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+
+### Podman
 
 ```bash
 $ podman run -it ghcr.io/gbraad/devenv/dotfiles:37 /bin/zsh 
 ```
 
-  * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/gbraad/devenv)
-  * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+or with [Tailscale](https://tailscale.com) enabled:
+
+```bash
+$ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad/devenv/dotfiles:37 /bin/zsh
+```
+
+Note: For more information about the [container](docs/podman.md).
 
 
 Authors

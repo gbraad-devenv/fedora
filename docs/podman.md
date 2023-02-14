@@ -7,9 +7,11 @@ Gerard Braad's development environment
 ### Build
 
 ```
-$ podman build -f docker/Dockerfile .
+$ podman build -f containers/Containerfile .
 # tag image and push
-$ podman build -f gitpod/Dockerfile .
+$ podman build -f gitpod/Containerfile .
+# tag image and push
+$ podman build -f containers/Containerfile-dotfiles .
 # tag image and push
 ```
 
