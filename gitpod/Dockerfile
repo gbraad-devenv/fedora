@@ -1,4 +1,9 @@
-FROM ghcr.io/gbraad/gitpod-devenv:0.3.1
+FROM ghcr.io/gbraad/devenv-base:37
+
+USER root
+
+# Add gitpod user with the expected ID (automated setup does not work atm)
+RUN useradd -l -u 33334 -G wheel -md /home/gitpod -s /usr/bin/zsh -p gitpod gitpod
 
 USER gitpod
 

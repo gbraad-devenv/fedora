@@ -6,8 +6,8 @@ USER root
 RUN curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m) \
     && chmod +x /usr/bin/slirp4netns
 
-# Add gitpod user with the expected ID (automated setup does not work atm)
-RUN useradd -l -u 33333 -G wheel -md /home/gitpod -s /usr/bin/zsh -p gitpod gitpod \
+# Add user with the expected ID (automated setup does not work atm)
+RUN useradd -l -u 1000 -G wheel -md /home/gbraad -s /usr/bin/zsh -p gbraad gbraad \
     && sed -i.bkp -e 's/%wheel\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%wheel ALL=NOPASSWD:ALL/g' /etc/sudoers
 
 # essential packages
@@ -110,6 +110,6 @@ RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.rep
 COPY scripts/tailscaled /etc/init.d/tailscaled
 RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
-USER gitpod
+USER gbraad
 
 RUN pip install pygments-style-tomorrownightbright

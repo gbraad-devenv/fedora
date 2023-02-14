@@ -1,2 +1,3 @@
-FROM ghcr.io/gbraad/gitpod-devenv:0.3.1
+FROM ghcr.io/gbraad/devenv-base:37
+
 USER root

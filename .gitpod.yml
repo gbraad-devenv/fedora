@@ -1,4 +1,4 @@
-image: ghcr.io/gbraad/gitpod-devenv:0.3.1
+image: ghcr.io/gbraad/devenv-gitpod:37
 
 experimentalNetwork: true
 

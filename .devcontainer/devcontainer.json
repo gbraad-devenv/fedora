@@ -1,10 +1,15 @@
 {
     "name": "Tailscale-enabled Developer Environment",
-    "dockerFile": "Dockerfile",
+    //"dockerFile": "Dockerfile",
+    "image": "ghcr.io/gbraad/devenv-base:37",
     "context": "..",
     "runArgs": [ "--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--device=/dev/net/tun" ],
-    "postStartCommand": "github/install.sh && nohup bash -c '/etc/init.d/tailscaled start &' && tailscale up"
+    "postStartCommand": "github/install.sh && nohup bash -c '/etc/init.d/tailscaled start &' && tailscale up",
     //, "features": {
     //    "ghcr.io/tailscale/codespace/tailscale": {}
     //}
+    "extensions": [
+         "ms-vscode.Theme-TomorrowKit",
+         "ritwickdey.LiveServer"
+    ]
 }
