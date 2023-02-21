@@ -10,7 +10,7 @@ case "$1" in
   start)
         echo "Starting Tailscale VPN"
             /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port 41641 2>/dev/null &
-            tailscale up --authkey=${TAILSCALE_AUTHKEY} --netfilter-mode=off
+            tailscale up --authkey=${TAILSCALE_AUTHKEY} --netfilter-mode=off --ssh
         ;;
   *)
         echo "Usage: /etc/init.d/tailscaled {start}"
