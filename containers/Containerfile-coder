@@ -1,0 +1,11 @@
+FROM ghcr.io/gbraad/devenv/systemd:37
+
+RUN VERSION=4.10.0 \
+    && USER=gbraad \
+    && curl -fOL https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-amd64.rpm \
+    && rpm -i code-server-$VERSION-amd64.rpm \
+    && systemctl enable code-server@$USER \
+    && rm -f code-server-$VERSION-amd64.rpm
+
+# Exposed on http://127.0.0.1:8080
+# Password is in ~/.config/code-server/config.yaml
