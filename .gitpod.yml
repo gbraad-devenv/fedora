@@ -11,12 +11,15 @@ tasks:
         cd /tmp
         curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh -o /tmp/install.sh &&
         rm -f ~/.zshrc &&
-        sh /tmp/install.sh &&
-        mv ~/.bashrc-nochsh ~/.bashrc
+        sh /tmp/install.sh
       fi
+      mv ~/.bashrc-nochsh ~/.bashrc
   - name: github
     command: |
       gh auth login -h github.com -w
+  - name: docker
+    command: |
+      sudo dnf install -y docker
   - name: sshd
     command: |
       sudo ssh-keygen -A && sudo /usr/sbin/sshd
@@ -34,4 +37,3 @@ ports:
 vscode:
   extensions:
     - ms-vscode.Theme-TomorrowKit
-
