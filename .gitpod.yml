@@ -1,4 +1,5 @@
-image: ghcr.io/gbraad/devenv/gitpod:37
+image:
+  file: .gitpod.Dockerfile
 
 experimentalNetwork: true
 

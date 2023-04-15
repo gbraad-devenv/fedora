@@ -1,4 +1,4 @@
-FROM ghcr.io/gbraad/devenv/base:37
+FROM --platform=linux/amd64 ghcr.io/gbraad/devenv/base:37
 
 USER root
 
