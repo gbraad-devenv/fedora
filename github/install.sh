@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # clean workspace folder
-rm -rf /workspaces/devenv
-mkdir /workspaces/devenv
-ln -s /workspaces/devenv ~/Projects
-git init /workspaces/devenv
+rm -rf /workspaces/fedora
+mkdir /workspaces/fedora
+ln -s /workspaces/fedora ~/Projects
+git init /workspaces/fedora
 
 cd ~
 

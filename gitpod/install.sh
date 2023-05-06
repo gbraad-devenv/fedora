@@ -4,10 +4,10 @@
 sudo chmod 644 /etc/resolv.conf
 
 # clean workspace folder
-rm -rf /workspace/devenv
-mkdir /workspace/devenv
-ln -s /workspace/devenv ~/Projects
-git init /workspace/devenv
+rm -rf /workspace/fedora
+mkdir /workspace/fedora
+ln -s /workspace/fedora ~/Projects
+git init /workspace/fedora
 
 cd ~
 
