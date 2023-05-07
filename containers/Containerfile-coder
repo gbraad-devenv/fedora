@@ -1,4 +1,4 @@
-FROM ghcr.io/gbraad-devenv/fedora/systemd:37
+FROM ghcr.io/gbraad-devenv/fedora/systemd:38
 
 RUN VERSION=4.10.0 \
     && USER=gbraad \

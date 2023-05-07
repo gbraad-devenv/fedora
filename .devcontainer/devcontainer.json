@@ -1,7 +1,7 @@
 {
     "name": "Fedora developer environment",
     //"dockerFile": "Dockerfile",
-    "image": "ghcr.io/gbraad-devenv/fedora/base:37",
+    "image": "ghcr.io/gbraad-devenv/fedora/base:38",
     "context": "..",
     "runArgs": [ "--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--device=/dev/net/tun" ],
     "postStartCommand": "github/install.sh && nohup bash -c 'sudo /etc/init.d/tailscaled start &' && sudo tailscale up",

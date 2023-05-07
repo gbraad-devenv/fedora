@@ -27,10 +27,10 @@ $ podman run -it ghcr.io/gbraad-devenv/fedora/dotfiles:37 /bin/zsh
 or with [Tailscale](https://tailscale.com) enabled:
 
 ```bash
-$ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad-devenv/fedora/dotfiles:37 /bin/zsh
+$ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad-devenv/fedora/dotfiles:38 /bin/zsh
 ```
 
-Note: For more information about the [container](docs/podman.md).
+Note: For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
 
 
 Authors
