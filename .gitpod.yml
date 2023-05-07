@@ -27,7 +27,7 @@ tasks:
       curl https://github.com/gbraad.keys | tee -a ~/.ssh/authorized_keys
   - name: tailscale
     command: |
-      sudo /etc/init.d/tailscaled start
+      sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
 
 ports:
   - port: 22
