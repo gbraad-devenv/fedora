@@ -27,10 +27,10 @@ RUN dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tails
 COPY scripts/tailscaled /etc/init.d/tailscaled
 
 # for toolbox
-RUN dnf install -y \
-        zsh bc curl diffutils dnf-plugins-core findutils gnupg2 less lsof ncurses passwd pinentry procps-ng shadow-utils sudo time util-linux wget vte-profile \
-    && dnf clean all \
-    && rm -rf /var/cache/yum
+#RUN dnf install -y \
+#        zsh bc curl diffutils dnf-plugins-core findutils gnupg2 less lsof ncurses passwd pinentry procps-ng shadow-utils sudo time util-linux wget vte-profile \
+#    && dnf clean all \
+#    && rm -rf /var/cache/yum
 
 # dotfiles for root
 RUN curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
