@@ -16,12 +16,13 @@ Usage
   * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
   * Open in [CodeSandbox](https://codesandbox.io/p/github/gbraad-devenv/fedora)
   * `devenv` => `defenv`, `defsys` in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
+  * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:38`
 
 
 ### Podman
 
 ```bash
-$ podman run -it ghcr.io/gbraad-devenv/fedora/dotfiles:37 /bin/zsh 
+$ podman run -it ghcr.io/gbraad-devenv/fedora/dotfiles:38 /bin/zsh 
 ```
 
 or with [Tailscale](https://tailscale.com) enabled:
@@ -32,6 +33,27 @@ $ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghc
 
 Note: For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
 
+
+### Devbox
+Running devenv using Toolbox/distrobox
+
+```
+$ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:38        # toolbox does not report download progress
+```
+
+
+#### Distrobox
+```
+$ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:38 -n devbox-fedora38
+```
+
+
+#### Toolbox
+```
+$ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:38 devbox-fedora38
+```
+
+Note: I strongly suggest against the use of Toolbx. (Too many issues when used with custom images)
 
 Authors
 -------

@@ -3,24 +3,36 @@ FROM registry.fedoraproject.org/fedora:38
 USER root
 
 # Needed for the experimental network mode (to support Tailscale)
-RUN curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m) \
-    && chmod +x /usr/bin/slirp4netns
+#RUN curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m) \
+#    && chmod +x /usr/bin/slirp4netns
 
 # Add user with the expected ID (automated setup does not work atm)
 RUN useradd -l -u 1000 -G wheel -md /home/gbraad -s /usr/bin/zsh -p gbraad gbraad \
     && sed -i.bkp -e 's/%wheel\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%wheel ALL=NOPASSWD:ALL/g' /etc/sudoers
 
 # essential packages
-RUN dnf install -y dnf-plugins-core git-core \
+RUN dnf install -y \
+        dnf-plugins-core git-core \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
 # install tailscale
 RUN dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo \
-    && dnf install -y tailscale \
+    && dnf install -y \
+        tailscale \
     && dnf clean all \
-    && rm -rf /var/cache/yum
+    && rm -rf /var/cache/yum \
+    && mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
+COPY scripts/tailscaled /etc/init.d/tailscaled
+
+# for toolbox
+#RUN dnf install -y \
+#        zsh bc curl diffutils dnf-plugins-core findutils gnupg2 less lsof ncurses passwd pinentry procps-ng shadow-utils sudo time util-linux wget vte-profile \
+#    && dnf clean all \
+#    && rm -rf /var/cache/yum
+
+# dotfiles for root
 RUN curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
 
 RUN dnf install -y \
@@ -44,32 +56,13 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# optiona
+# optional for notebooks
 RUN dnf install -y \
         python3-pip \
         python3-pygments \
     && dnf clean all \
     && rm -rf /var/cache/yum
     
-# vim
-RUN dnf install -y \
-        vim-syntastic-asciidoc \
-        vim-syntastic-html \
-        vim-syntastic-css \
-        vim-syntastic-vim \
-        vim-syntastic-yaml \
-        vim-syntastic-json \
-        vim-syntastic-go \
-        vim-syntastic-zsh \
-        vim-airline \
-        vim-go \
-        vim-ctrlp \
-        vim-gitgutter \
-        vim-fugitive \
-        vim-nerdtree \
-    && dnf clean all \
-    && rm -rf /var/cache/yum
-
 # ranger
 RUN dnf install -y \
         ranger \
@@ -87,6 +80,7 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+# convenience tools
 RUN dnf install -y \
         trash-cli \
         fzf \
@@ -95,20 +89,19 @@ RUN dnf install -y \
         ripgrep \
     && dnf clean all \
     && rm -rf /var/cache/yum
-        
+
+# ssh server
 RUN dnf install -y \
         openssh-server \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+# github client
 RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo \
     && dnf install -y \
        gh \
     && dnf clean all \
     && rm -rf /var/cache/yum
-
-COPY scripts/tailscaled /etc/init.d/tailscaled
-RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
 USER gbraad
 

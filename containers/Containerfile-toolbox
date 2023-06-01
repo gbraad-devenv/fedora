@@ -1,0 +1,31 @@
+FROM ghcr.io/gbraad-devenv/fedora/base:38
+
+USER root
+
+# for toolbox, though too many issues with custom images
+#RUN dnf -y swap coreutils-single coreutils-full
+#RUN dnf -y swap glibc-minimal-langpack glibc-all-langpacks
+
+# for distrobox
+RUN dnf install -y \
+        zsh \
+        bc \
+        curl \
+        diffutils \
+        dnf-plugins-core \
+        findutils \
+        gnupg2 \
+        less \
+        lsof \
+        ncurses \
+        passwd \
+        pinentry \
+        procps-ng \
+        shadow-utils \
+        sudo \
+        time \
+        util-linux \
+        wget \
+        vte-profile \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
