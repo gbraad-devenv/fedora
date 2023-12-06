@@ -1,4 +1,4 @@
-FROM ghcr.io/gbraad-devenv/fedora/base:38
+FROM ghcr.io/gbraad-devenv/fedora/base:39
 
 RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
     && ~/.dotfiles/install.sh

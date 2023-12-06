@@ -1,4 +1,4 @@
-FROM ghcr.io/gbraad-devenv/fedora/dotfiles:38
+FROM ghcr.io/gbraad-devenv/fedora/dotfiles:39
 
 USER root
 
