@@ -1,0 +1,16 @@
+name: devenv-test
+on:
+  push:
+    branches: [ main ]
+jobs:
+  devenv-test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/gbraad-devenv/fedora/dotfiles:39
+      volumes:
+        - workspace:/workspace
+      options: --cpus 1
+    steps:
+      - name: Test steps
+        run: |
+          tailscale status
