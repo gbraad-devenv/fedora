@@ -31,4 +31,4 @@ jobs:
           curl -O https://ash-speed.hetzner.com/100MB.bin
       - name: Send files with Tailscale to fixed target
         run: |
-          tailscale file cp /tmp/Downloads/* wint14:
+          sudo tailscale file cp /tmp/Downloads/* wint14:
