@@ -18,6 +18,7 @@ jobs:
       - name: Tailscale test steps
         run: |
           sudo sed -i '/--port 41641/ s/$/ \\\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
+          sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
           sleep 5
           until tailscale up
