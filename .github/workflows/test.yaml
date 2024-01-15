@@ -18,6 +18,7 @@ jobs:
       - name: Test steps
         run: |
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
+          sleep 5
           until tailscale up
           do
               sleep 0.1
