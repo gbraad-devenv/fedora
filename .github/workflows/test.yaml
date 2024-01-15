@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Tailscale test steps
         run: |
-          sed -i 's/FLAGS=""/FLAGS="--tun=userspace-networking"/g' /etc/default/tailscaled \
+          sed -i 's/FLAGS=""/FLAGS="--tun=userspace-networking"/g' /etc/default/tailscaled
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
           sleep 5
           until tailscale up
