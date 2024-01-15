@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p /tmp/Downloads
           cd /tmp/Downloads
-          curl -O https://ash-speed.hetzner.com/100MB.bin
+          curl -O https://downloads.vivaldi.com/stable/vivaldi-stable-6.5.3206.53-1.x86_64.rpm
       - name: Send files with Tailscale to fixed target
         run: |
           tailscale file cp /tmp/Downloads/* ncentre-proxy:
