@@ -28,6 +28,7 @@ jobs:
               sleep 0.1
           done
           tailscale set --advertise-exit-node
+          tailscale set --ssh
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
