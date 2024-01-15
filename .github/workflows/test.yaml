@@ -19,8 +19,8 @@ jobs:
         run: |
           sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
-          sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
-          until sudo tailscale up
+          /etc/init.d/tailscaled start
+          until tailscale up
           do
               sleep 0.1
           done
@@ -31,4 +31,4 @@ jobs:
           curl -O https://ash-speed.hetzner.com/100MB.bin
       - name: Send files with Tailscale to fixed target
         run: |
-          sudo tailscale file cp /tmp/Downloads/* wint14:
+          tailscale file cp /tmp/Downloads/* wint14:
