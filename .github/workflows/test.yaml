@@ -15,7 +15,7 @@ jobs:
       TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
     
     steps:
-      - name: Tailscale test steps
+      - name: Tailscale setup
         run: |
           sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
@@ -24,4 +24,11 @@ jobs:
           do
               sleep 0.1
           done
-          tailscale status
+      - name: Download files
+        run: |
+          mkdir -p /tmp/Downloads
+          cd /tmp/Downloads
+          curl -O https://ash-speed.hetzner.com/100MB.bin
+      - name: Send files with Tailscale to fixed target
+        run: |
+          tailscale file cp /tmp/Downloads/* wint14:
