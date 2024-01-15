@@ -21,7 +21,7 @@ jobs:
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
           sleep 5
-          until tailscale up
+          until sudo tailscale up
           do
               sleep 0.1
           done
