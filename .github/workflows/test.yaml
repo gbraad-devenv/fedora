@@ -11,21 +11,24 @@ jobs:
       volumes:
         - workspace:/workspace
       options: --cpus 1
-    env:
-      TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
     
     steps:
-      - name: Tailscale setup
+      - name: Tailscale setup (root)
         run: |
+          sudo dnf update -y tailscale
           sudo sed -i 's|--state=/var/lib/tailscale/tailscaled.state|--state=mem:|' /etc/init.d/tailscaled
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
           sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
+      - name: Tailscale setup (user)
+        run: |
           sudo chmod o+w /var/run/tailscale/
           /etc/init.d/tailscaled start
           until tailscale up
           do
               sleep 0.1
           done
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Download files
         run: |
           mkdir -p /tmp/Downloads
