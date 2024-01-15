@@ -1,10 +1,10 @@
-name: devenv-test
+name: tailscale-file
 on:
   push:
     branches: [ main ]
 
 jobs:
-  devenv-test-job:
+  file-test:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/gbraad-devenv/fedora/dotfiles:39
