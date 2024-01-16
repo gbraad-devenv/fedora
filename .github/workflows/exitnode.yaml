@@ -19,6 +19,7 @@ jobs:
           sudo sed -i 's|--state=/var/lib/tailscale/tailscaled.state|--state=mem:|' /etc/init.d/tailscaled
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
           sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
+          sudo ssh-keygen -A
       - name: Tailscale setup (user)
         run: |
           sudo chmod o+w /var/run/tailscale/
