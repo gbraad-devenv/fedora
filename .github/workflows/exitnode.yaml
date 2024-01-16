@@ -24,13 +24,12 @@ jobs:
         run: |
           sudo chmod o+w /var/run/tailscale/
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
-          sudo tailscale set --operator=$USER
-          until tailscale up
+          until sudo tailscale up
           do
               sleep 0.1
           done
-          tailscale set --hostname github-${HOSTNAME}
-          tailscale set --advertise-exit-node
+          sudo tailscale set --hostname github-${HOSTNAME}
+          sudo tailscale set --advertise-exit-node
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
