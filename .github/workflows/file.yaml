@@ -27,14 +27,14 @@ jobs:
           do
               sleep 0.1
           done
-          tailscale set --hostname github-${HOST}
+          tailscale set --hostname github-${HOSTNAME}
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Download files
         run: |
           mkdir -p /tmp/Downloads
           cd /tmp/Downloads
-          curl -O https://downloads.vivaldi.com/stable/vivaldi-stable-6.5.3206.53-1.x86_64.rpm
+          curl -O https://link.testfile.org/PDF20MB
       - name: Send files with Tailscale to fixed target
         run: |
           tailscale file cp /tmp/Downloads/* ncentre-proxy:

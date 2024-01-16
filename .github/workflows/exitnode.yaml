@@ -27,7 +27,7 @@ jobs:
           do
               sleep 0.1
           done
-          tailscale set --hostname github-${HOST}
+          tailscale set --hostname github-${HOSTNAME}
           tailscale set --ssh
           tailscale set --advertise-exit-node
         env:
