@@ -23,13 +23,13 @@ jobs:
       - name: Tailscale setup (user)
         run: |
           sudo chmod o+w /var/run/tailscale/
-          /etc/init.d/tailscaled start
+          sudo /etc/init.d/tailscaled start
+          sudo tailscale set --operator=$USER
           until tailscale up
           do
               sleep 0.1
           done
           tailscale set --hostname github-${HOSTNAME}
-          tailscale set --ssh
           tailscale set --advertise-exit-node
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
