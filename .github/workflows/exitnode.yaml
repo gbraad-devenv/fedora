@@ -28,8 +28,9 @@ jobs:
           do
               sleep 0.1
           done
-          sudo tailscale set --hostname github-${HOSTNAME}
-          sudo tailscale set --advertise-exit-node
+          sudo tailscale set --operator=$USER
+          tailscale set --hostname github-${HOSTNAME}
+          tailscale set --advertise-exit-node
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
