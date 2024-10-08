@@ -16,19 +16,19 @@ Usage
   * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
   * Open in [CodeSandbox](https://codesandbox.io/p/github/gbraad-devenv/fedora)
   * `devenv` => `defenv`, `defsys` in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
-  * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:39`
+  * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:40`
 
 
 ### Podman
 
 ```bash
-$ podman run -it ghcr.io/gbraad-devenv/fedora/dotfiles:39 /bin/zsh 
+$ podman run -it ghcr.io/gbraad-devenv/fedora/dotfiles:40 /bin/zsh 
 ```
 
 or with [Tailscale](https://tailscale.com) enabled:
 
 ```bash
-$ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad-devenv/fedora/dotfiles:39 /bin/zsh
+$ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad-devenv/fedora/dotfiles:40 /bin/zsh
 ```
 
 Note: For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
@@ -38,19 +38,19 @@ Note: For more information about the [container](docs/podman.md) build and usage
 Running devenv using Toolbox/distrobox
 
 ```
-$ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:39        # toolbox does not report download progress
+$ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:40        # toolbox does not report download progress
 ```
 
 
 #### Distrobox
 ```
-$ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:39 -n devbox-fedora39
+$ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:40 -n devbox-fedora40
 ```
 
 
 #### Toolbox
 ```
-$ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:39 devbox-fedora39
+$ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:40 devbox-fedora40
 ```
 
 Note: I strongly suggest against the use of Toolbx. (Too many issues when used with custom images)

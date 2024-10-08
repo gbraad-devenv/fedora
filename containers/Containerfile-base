@@ -1,6 +1,8 @@
-FROM registry.fedoraproject.org/fedora:39
+FROM registry.fedoraproject.org/fedora:40
 
 USER root
+
+
 
 # Needed for the experimental network mode (to support Tailscale)
 #RUN curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m) \
@@ -36,7 +38,7 @@ COPY scripts/tailscaled /etc/init.d/tailscaled
 RUN curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh | sh
 
 RUN dnf install -y \
-        mc vim tmux screen links lynx z \
+        zsh mc vim tmux screen links lynx z \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
