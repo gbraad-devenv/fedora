@@ -5,8 +5,13 @@
     "context": "..",
     "runArgs": [ "--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--device=/dev/net/tun" ],
     "postStartCommand": "github/install.sh",
-    "extensions": [
-         "ms-vscode.Theme-TomorrowKit",
-         "ritwickdey.LiveServer"
-    ]
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.Theme-TomorrowKit",
+                "ritwickdey.LiveServer"
+            ]
+        }
+    }
 }
