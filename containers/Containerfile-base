@@ -28,7 +28,7 @@ RUN dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable
 COPY scripts/tailscaled /etc/init.d/tailscaled
 
 RUN dnf install -y \
-        zsh mc vim tmux screen links lynx z stow wget \
+        zsh mc vim tmux screen links lynx z stow wget procps-ng \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
