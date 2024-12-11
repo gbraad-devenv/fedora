@@ -1,5 +1,23 @@
 ARG BASE_VERSION="41"
 
-FROM ghcr.io/gbraad-devenv/fedora/base:${BASE_VERSION}
+FROM ghcr.io/gbraad-devenv/fedora/systemd:${BASE_VERSION}
 
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
+
+RUN dnf install -y https://github.com/spotsnel/AltRPMS-KasmVNC/releases/download/1.3.3/kasmvncserver-1.3.3-1.fc41.x86_64.rpm \
+    && dnf clean all \
+    && rm -rf /var/cache/yum \
+    && usermod -a -G kasmvnc-cert gbraad
+
+RUN sed -i 's/^FLAGS=".*"/FLAGS="--tun=userspace-networking"/' /etc/default/tailscaled
+
+USER gbraad
+
+RUN mkdir -p ~/.vnc \
+    && echo '#!/bin/sh' > ~/.vnc/xstartup \
+    && echo 'i3 &' >> ~/.vnc/xstartup \
+    && chmod +x ~/.vnc/xstartup
+
+# systemd is already set up in systemd image; make sure to use root
+USER root
+#ENTRYPOINT ["/sbin/init"]
