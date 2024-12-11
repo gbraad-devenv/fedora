@@ -3,10 +3,6 @@ run-name: building containers
 on:
   schedule:
     - cron: "0 0 1 * *"
-  push:
-    branches:
-      - "main"
-  pull_request: {}
   workflow_dispatch:
 jobs:
   build:
