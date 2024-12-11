@@ -1,4 +1,8 @@
-FROM ghcr.io/gbraad-devenv/fedora/dotfiles:40
+ARG BASE_VERSION="41"
+
+FROM ghcr.io/gbraad-devenv/fedora/dotfiles:${BASE_VERSION}
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
 USER root
 

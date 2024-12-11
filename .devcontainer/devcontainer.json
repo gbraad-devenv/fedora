@@ -1,7 +1,7 @@
 {
     "name": "Fedora developer environment",
     //"dockerFile": "Dockerfile",
-    "image": "ghcr.io/gbraad-devenv/fedora/dotfiles:40",
+    "image": "ghcr.io/gbraad-devenv/fedora/dotfiles:41",
     "context": "..",
     "runArgs": [ "--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--device=/dev/net/tun" ],
     "postStartCommand": "github/install.sh",

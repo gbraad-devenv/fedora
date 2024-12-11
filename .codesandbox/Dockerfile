@@ -1,4 +1,6 @@
-FROM --platform=linux/amd64 ghcr.io/gbraad-devenv/fedora/dotfiles:40
+FROM --platform=linux/amd64 ghcr.io/gbraad-devenv/fedora/dotfiles:41
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
 USER root
 
@@ -7,6 +9,3 @@ RUN  dnf update -y tailscale \
      && rm -rf /var/cache/yum
 
 USER gbraad
-
-RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
-    && ~/.dotfiles/install.sh

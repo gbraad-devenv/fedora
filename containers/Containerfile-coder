@@ -1,4 +1,8 @@
-FROM ghcr.io/gbraad-devenv/fedora/systemd:40
+ARG BASE_VERSION="41"
+
+FROM ghcr.io/gbraad-devenv/fedora/systemd:${BASE_VERSION}
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
 RUN VERSION=4.93.1 \
     && USER=gbraad \
