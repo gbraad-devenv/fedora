@@ -5,9 +5,9 @@ on:
 
 jobs:
   file-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/gbraad-devenv/fedora/dotfiles:39
+      image: ghcr.io/gbraad-devenv/fedora/dotfiles:41
       volumes:
         - workspace:/workspace
       options: --cpus 1
