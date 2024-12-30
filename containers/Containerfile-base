@@ -27,6 +27,12 @@ RUN dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable
 
 COPY scripts/tailscaled /etc/init.d/tailscaled
 
+# install cloudflared
+#RUN dnf install -y \
+#        https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm \
+#    && dnf clean all \
+#    && rm -rf /var/cache/yum
+
 RUN dnf install -y \
         zsh mc vim tmux screen links lynx z stow wget procps-ng \
     && dnf clean all \
@@ -38,16 +44,6 @@ RUN curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.s
 # powerline
 RUN dnf install -y \
         powerline vim-powerline tmux-powerline \
-    && dnf clean all \
-    && rm -rf /var/cache/yum
-
-# fonts
-RUN dnf install -y \
-        adobe-source-han-mono-fonts \
-        adobe-source-code-pro-fonts \
-        adobe-source-sans-pro-fonts \
-        adobe-source-serif-pro-fonts \
-        powerline-fonts \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
@@ -65,16 +61,6 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# graphical
-RUN dnf install -y \
-        novnc \
-        x11vnc \
-        i3 \
-        python3-i3ipc \
-        feh \
-    && dnf clean all \
-    && rm -rf /var/cache/yum
-
 # convenience tools
 RUN dnf install -y \
         trash-cli \
@@ -85,9 +71,9 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# ssh server
+# webdav (for tailscale drive shares and nextcloud)
 RUN dnf install -y \
-        openssh-server \
+        davfs2 cadaver \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
