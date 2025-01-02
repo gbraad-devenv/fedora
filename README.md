@@ -15,8 +15,8 @@ Usage
   * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/gbraad-devenv/fedora)
   * Open in [GitHub Codespaces](https://github.com/codespaces/new?machine=standardLinux32gb&repo=61788628&ref=main&location=SouthEastAsia&devcontainer_path=.devcontainer%2Fdevcontainer.json)
   * Open in [CodeSandbox](https://codesandbox.io/p/github/gbraad-devenv/fedora)
-  * `devenv` => `defenv`, `defsys` in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
-  * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:40`
+  * `dev fed env`, `dev fed sys` in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
+  * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:41`
 
 
 ### Podman
@@ -37,20 +37,20 @@ Note: For more information about the [container](docs/podman.md) build and usage
 ### Devbox
 Running devenv using Toolbox/distrobox
 
-```
-$ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:40        # toolbox does not report download progress
-```
-
-
 #### Distrobox
 ```
-$ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:40 -n devbox-fedora40
+$ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:41 -n devbox-fedora41
 ```
 
+> [!NOTE]
+> Since toolbox does not report download progress, it is advised to pull first
+> ```
+> $ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:41
+> ```
 
 #### Toolbox
 ```
-$ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:40 devbox-fedora40
+$ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:41 devbox-fedora41
 ```
 
 Note: I strongly suggest against the use of Toolbx. (Too many issues when used with custom images)
