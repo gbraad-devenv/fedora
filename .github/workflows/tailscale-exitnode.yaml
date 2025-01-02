@@ -1,7 +1,6 @@
 name: tailscale-exitnode
 on:
   workflow_dispatch:
-    branches: [ main ]
 
 jobs:
   exitnode-test:

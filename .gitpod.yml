@@ -28,6 +28,9 @@ tasks:
   - name: tailscale
     command: |
       sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
+  - name: jupyter
+    command: |
+      pip install ipykernel
 
 ports:
   - port: 22
@@ -39,3 +42,5 @@ vscode:
   extensions:
     - ms-vscode.Theme-TomorrowKit
     - tailscale.vscode-tailscale
+    - ms-toolsai.jupyter
+    - ms-python.python

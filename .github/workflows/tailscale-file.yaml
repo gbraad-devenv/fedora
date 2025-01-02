@@ -1,7 +1,6 @@
 name: tailscale-file
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   file-test:
