@@ -1,0 +1,38 @@
+name: tailscale-exitnode
+on:
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  exitnode-test:
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/gbraad-devenv/fedora/dotfiles:41
+      volumes:
+        - workspace:/workspace
+      options: --cpus 1
+    
+    steps:
+      - name: Tailscale setup (root)
+        run: |
+          sudo sed -i 's|--state=/var/lib/tailscale/tailscaled.state|--state=/tmp/tailscale.state|' /etc/init.d/tailscaled
+          sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
+          sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
+          sudo chmod o+w /var/run/tailscale/
+          sudo ssh-keygen -A
+      - name: Tailscale run (root)
+        run: |
+          sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
+          until sudo tailscale up
+          do
+              sleep 0.1
+          done
+          sudo tailscale set --hostname github-${HOSTNAME}
+          sudo tailscale set --advertise-exit-node
+          sudo tailscale set --operator gbraad
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
+      - name: Hang around
+        run: |
+          tailscale ip
+          sleep infinity
