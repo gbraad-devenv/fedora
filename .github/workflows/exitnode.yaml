@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Tailscale setup (root)
         run: |
-          sudo dnf update -y tailscale
           sudo sed -i 's|--state=/var/lib/tailscale/tailscaled.state|--state=/tmp/tailscale.state|' /etc/init.d/tailscaled
           sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
           sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
