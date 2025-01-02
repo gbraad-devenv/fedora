@@ -9,7 +9,9 @@
         "vscode": {
             "extensions": [
                 "ms-vscode.Theme-TomorrowKit",
-                "ritwickdey.LiveServer"
+                "ritwickdey.LiveServer",
+                "ms-toolsai.jupyter",
+                "ms-python.python"
             ]
         }
     }

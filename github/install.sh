@@ -8,4 +8,7 @@ git init /workspaces/fedora
 
 cd ~
 
+# additional files
+pip install ipykernel
+
 exit 0
