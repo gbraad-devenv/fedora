@@ -31,7 +31,8 @@ or with [Tailscale](https://tailscale.com) enabled:
 $ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghcr.io/gbraad-devenv/fedora/dotfiles:40 /bin/zsh
 ```
 
-Note: For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
+> [!NOTE]
+> For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
 
 
 ### Devbox
@@ -43,7 +44,7 @@ $ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:41 -n devbox-fedora41
 ```
 
 > [!NOTE]
-> Since toolbox does not report download progress, it is advised to pull first
+> Since distrobox does not report download progress, it is advised to pull first
 > ```
 > $ podman pull ghcr.io/gbraad-devenv/fedora/toolbox:41
 > ```
@@ -53,7 +54,8 @@ $ distrobox create -i ghcr.io/gbraad-devenv/fedora/toolbox:41 -n devbox-fedora41
 $ toolbox create -i ghcr.io/gbraad-devenv/fedora/toolbox:41 devbox-fedora41
 ```
 
-Note: I strongly suggest against the use of Toolbx. (Too many issues when used with custom images)
+> [!NOTE]
+> I strongly suggest against the use of Toolbx. Too many issues when used with custom images that do not use `root`.
 
 Authors
 -------
