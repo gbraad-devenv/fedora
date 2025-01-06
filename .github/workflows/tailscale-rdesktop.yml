@@ -22,7 +22,10 @@ jobs:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
         run: |
-          sleep 5
-          podman exec rdesktop systemctl is-active kasmvncserver
-          podman exec rdesktop tailscale ip
+          until podman exec rdesktop systemctl is-active kasmvncserver
+          do
+               sleep 1
+          done
+          IP=`podman exec rdesktop tailscale ip -4`
+          echo "Open in your web browser: https://${IP}:8444"
           sleep infinity
