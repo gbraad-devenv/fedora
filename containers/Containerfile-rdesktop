@@ -29,15 +29,21 @@ RUN dnf install -y https://github.com/spotsnel/AltRPMS-KasmVNC/releases/download
     && rm -rf /var/cache/yum \
     && usermod -a -G kasmvnc-cert gbraad
 
+COPY assets/kasmvncserver.service /etc/systemd/system
+
 RUN sed -i 's/^FLAGS=".*"/FLAGS="--tun=userspace-networking"/' /etc/default/tailscaled
 
 USER gbraad
 
 RUN mkdir -p ~/.vnc \
-    && echo '#!/bin/sh' > ~/.vnc/xstartup \
-    && echo 'i3 &' >> ~/.vnc/xstartup \
-    && chmod +x ~/.vnc/xstartup
+    && echo $'#!/bin/sh\ni3 &' > ~/.vnc/xstartup \
+    && chmod +x ~/.vnc/xstartup \
+    && /bin/bash -c "echo -e 'password\npassword\n\n' | kasmvncpasswd -u gbraad -w" \
+    && touch ~/.vnc/.de-was-selected    
 
 # systemd is already set up in systemd image; make sure to use root
 USER root
+
+RUN systemctl enable kasmvncserver
+
 #ENTRYPOINT ["/sbin/init"]

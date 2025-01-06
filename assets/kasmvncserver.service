@@ -1,0 +1,16 @@
+[Unit]
+Description=KasmVNC service
+After=network.target
+
+[Service]
+Type=forking
+WorkingDirectory=/home/gbraad
+User=gbraad
+Group=gbraad
+
+ExecStartPre=/bin/sh -c '/usr/bin/kasmvncserver -kill :1 > /dev/null 2>&1 || :'
+ExecStart=/usr/bin/kasmvncserver :1
+ExecStop=/usr/bin/kasmvncserver -kill :1
+
+[Install]
+WantedBy=multi-user.target

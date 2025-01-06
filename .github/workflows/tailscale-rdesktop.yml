@@ -5,39 +5,24 @@ on:
 jobs:
   rdesktop-test:
     runs-on: ubuntu-24.04
-    container:
-      image: ghcr.io/gbraad-devenv/fedora/rdesktop:41
-      volumes:
-        - workspace:/workspace
-      options: --cpus 1
     
     steps:
+      - name: Run system container with `podman`
+        run: |
+          podman run -d --name rdesktop ghcr.io/gbraad-devenv/fedora/rdesktop:41
       - name: Tailscale setup (root)
         run: |
-          sudo dnf update -y tailscale
-          sudo sed -i 's|--state=/var/lib/tailscale/tailscaled.state|--state=mem:|' /etc/init.d/tailscaled
-          sudo sed -i 's|--socket=/run/tailscale/tailscaled.sock|--socket=/var/run/tailscale/tailscaled.sock|' /etc/init.d/tailscaled
-          sudo sed -i '/--port 41641/ s/$/\n                --tun=userspace-networking \\/' /etc/init.d/tailscaled
-      - name: Tailscale setup (user)
-        run: |
-          sudo chmod o+w /var/run/tailscale/
-          /etc/init.d/tailscaled start
-          until tailscale up
+          until podman exec rdesktop tailscale up --auth-key ${TAILSCALE_AUTHKEY}
           do
               sleep 0.1
           done
-          tailscale set --hostname github-${HOSTNAME}
+          podman exec rdesktop tailscale set --ssh
+          podman exec rdesktop tailscale set --hostname github-${HOSTNAME}
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
-      - name: Prepare VNC server environment
-        run: |
-          su - gbraad -c 'echo "passwd\npasswd\n" | kasmvncpasswd -u gbraad -w'
-          su - gbraad -c 'touch ~/.vnc/.de-was-selected'
-      - name: Start `kasmvncserver`
-        run: |
-          su - gbraad -c 'kasmvncserver'
       - name: Hang around
         run: |
-          whoami
-          tailscale ip
+          sleep 5
+          podman exec rdesktop systemctl is-active kasmvncserver
+          podman exec rdesktop tailscale ip
           sleep infinity
