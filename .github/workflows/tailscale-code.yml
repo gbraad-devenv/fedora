@@ -22,6 +22,7 @@ jobs:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
         run: |
+          sleep 3
           podman exec -d code code serve-web --without-connection-token
           podman exec code tailscale serve --bg 8000
           sleep infinity
