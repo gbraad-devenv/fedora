@@ -1,0 +1,27 @@
+name: tailscale-code
+on:
+  workflow_dispatch:
+
+jobs:
+  code-test:
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Run system container with `podman`
+        run: |
+          podman run -d --name code --systemd=always --cap-add=NET_RAW --cap-add=NET_ADMIN --cap-add=SYS_ADMIN --device=/dev/net/tun --device=/dev/fuse ghcr.io/gbraad-devenv/fedora/code:41
+      - name: Tailscale setup (root)
+        run: |
+          until podman exec code tailscale up --auth-key ${TAILSCALE_AUTHKEY}
+          do
+              sleep 0.1
+          done
+          podman exec code tailscale set --ssh
+          podman exec code tailscale set --hostname code-${HOSTNAME}
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
+      - name: Hang around
+        run: |
+          podman exec -d code code serve-web --without-connection-token
+          podman exec code tailscale serve --bg 8000
+          sleep infinity

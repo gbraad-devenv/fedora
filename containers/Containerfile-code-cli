@@ -1,0 +1,13 @@
+ARG BASE_VERSION="41"
+
+FROM ghcr.io/gbraad-devenv/fedora/dotfiles:${BASE_VERSION}
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
+
+RUN cd /tmp \
+    && curl -fL https://code.visualstudio.com/sha/download?build=stable\&os=cli-alpine-x64 -o code-cli.tar.gz \
+    && tar zxvf code-cli.tar.gz \
+    && mv code ~/.local/bin/ \
+    && rm -f code-cli.tar.gz
+
+ENTRYPOINT [ "/home/gbraad/.local/bin/code" ]
