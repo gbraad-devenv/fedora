@@ -1,0 +1,24 @@
+name: build container - toolbox
+run-name: building container - toolbox
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+jobs:
+  build:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Run podman build - toolbox
+        run: podman build -t ghcr.io/gbraad-devenv/fedora/toolbox:41 -f containers/Containerfile-toolbox .
+      - name: Push image to ghcr.io - toolbox
+        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/toolbox:41

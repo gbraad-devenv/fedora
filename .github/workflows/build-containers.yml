@@ -26,8 +26,6 @@ jobs:
         run: podman build -t ghcr.io/gbraad-devenv/fedora/systemd:41 -f containers/Containerfile-systemd .
       - name: Run podman build - rdesktop
         run: podman build -t ghcr.io/gbraad-devenv/fedora/rdesktop:41 -f containers/Containerfile-rdesktop .
-      - name: Run podman build - coder
-        run: podman build -t ghcr.io/gbraad-devenv/fedora/coder:41 -f containers/Containerfile-coder .
       - name: Push image to ghcr.io - base
         run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/base:41
       - name: Push image to ghcr.io - dotfiles
@@ -36,5 +34,3 @@ jobs:
         run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/systemd:41
       - name: Push image to ghcr.io - rdesktop
         run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/rdesktop:41
-      - name: Push image to ghcr.io - coder
-        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/coder:41
