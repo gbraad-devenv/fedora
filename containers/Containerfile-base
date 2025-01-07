@@ -85,4 +85,6 @@ RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/r
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+RUN chsh root -s /bin/zsh
+
 USER gbraad
