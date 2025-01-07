@@ -4,12 +4,11 @@ FROM ghcr.io/gbraad-devenv/fedora/systemd:${BASE_VERSION}
 
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
-RUN VERSION=4.93.1 \
-    && USER=gbraad \
-    && curl -fOL https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-amd64.rpm \
-    && rpm -i code-server-$VERSION-amd64.rpm \
-    && systemctl enable code-server@$USER \
-    && rm -f code-server-$VERSION-amd64.rpm
+RUN VERSION=4.96.2 \
+    && curl -fL https://github.com/coder/code-server/releases/download/v$VERSION/code-server-$VERSION-amd64.rpm -o code-server.rpm \
+    && rpm -i code-server.rpm \
+    && systemctl enable code-server@gbraad \
+    && rm -f code-server.rpm
 
 # Exposed on http://127.0.0.1:8080
 # Password is in ~/.config/code-server/config.yaml
