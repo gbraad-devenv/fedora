@@ -1,5 +1,5 @@
-name: build container - code + cli
-run-name: building container - code + cli
+name: build container - code cli
+run-name: building container - code cli
 on:
   schedule:
     - cron: "0 0 1 * *"
@@ -22,7 +22,3 @@ jobs:
         run: podman build -t ghcr.io/gbraad-devenv/fedora/code-cli:41 -f containers/Containerfile-code-cli .
       - name: Push image to ghcr.io - code-cli
         run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/code-cli:41
-      - name: Run podman build - code
-        run: podman build -t ghcr.io/gbraad-devenv/fedora/code:41 -f containers/Containerfile-code .
-      - name: Push image to ghcr.io - code
-        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/code:41
