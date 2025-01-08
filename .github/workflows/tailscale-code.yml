@@ -21,5 +21,10 @@ jobs:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
         run: |
-          podman exec code tailscale serve --bg 8000
+          until podman exec code systemctl is-active code-serveweb@root
+          do
+               sleep 1
+          done
+          IP=`podman exec code tailscale ip -4`
+          echo "Open in your web browser: http://${IP}:8000"
           sleep infinity

@@ -3,7 +3,7 @@ Description=Code Serve Web Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/code serve-web --without-connection-token
+ExecStart=/usr/bin/code serve-web --without-connection-token --host 0.0.0.0
 Restart=always
 User=%i
 
