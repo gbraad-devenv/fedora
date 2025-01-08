@@ -1,4 +1,4 @@
-name: tailscale-rdesktop
+name: tailscale-rdesktop-code
 on:
   workflow_dispatch:
 
@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Run system container with `podman`
         run: |
-          podman run -d --name rdesktop ghcr.io/gbraad-devenv/fedora/rdesktop:41
+          podman run -d --name rdesktop ghcr.io/gbraad-devenv/fedora/code:41
       - name: Tailscale setup (root)
         run: |
           until podman exec rdesktop tailscale up --auth-key ${TAILSCALE_AUTHKEY} --hostname github-${HOSTNAME}

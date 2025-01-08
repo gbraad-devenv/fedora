@@ -12,12 +12,11 @@ jobs:
           podman run -d --name coder ghcr.io/gbraad-devenv/fedora/coder:41
       - name: Tailscale setup (root)
         run: |
-          until podman exec coder tailscale up --auth-key ${TAILSCALE_AUTHKEY}
+          until podman exec coder tailscale up --auth-key ${TAILSCALE_AUTHKEY} --hostname github-${HOSTNAME}
           do
               sleep 0.1
           done
           podman exec coder tailscale set --ssh
-          podman exec coder tailscale set --hostname github-${HOSTNAME}
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
