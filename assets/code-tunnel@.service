@@ -1,0 +1,11 @@
+[Unit]
+Description=Code Tunnel Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/code tunnel --accept-server-license-terms
+Restart=always
+User=%i
+
+[Install]
+WantedBy=multi-user.target

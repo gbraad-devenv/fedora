@@ -12,6 +12,7 @@ RUN cd /tmp \
 
 # systemd
 COPY assets/code-serveweb@.service /etc/systemd/system/
+COPY assets/code-tunnel@.service /etc/systemd/system/
 
 RUN systemctl enable code-serveweb@root.service
 
