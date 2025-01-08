@@ -1,0 +1,11 @@
+[Unit]
+Description=Code Serve Web Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/code serve-web --without-connection-token
+Restart=always
+User=%i
+
+[Install]
+WantedBy=multi-user.target
