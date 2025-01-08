@@ -21,7 +21,7 @@ jobs:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
         run: |
-          until podman exec code systemctl is-active code-serveweb@root
+          until podman exec code systemctl is-active --quiet code-serveweb@root
           do
                sleep 1
           done
