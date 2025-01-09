@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-24.04
     
     steps:
+      - name: Remove unwanted stuff
+        uses: gbraad-devenv/remove-unwanted@v1
       - name: Run system container with `podman`
         run: |
           podman run -d --name rdesktop --hostname code-${HOSTNAME} ghcr.io/gbraad-devenv/fedora/rdesktop:41
