@@ -1,4 +1,4 @@
-name: tailscale-code
+name: tailscale-ssh
 on:
   workflow_dispatch:
 
