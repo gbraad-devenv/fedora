@@ -22,11 +22,10 @@ jobs:
         run: |
           sudo chmod o+w /var/run/tailscale/
           /etc/init.d/tailscaled start
-          until tailscale up
+          until tailscale up --hostname github-${HOSTNAME}
           do
               sleep 0.1
           done
-          tailscale set --hostname github-${HOSTNAME}
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Download files

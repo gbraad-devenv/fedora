@@ -22,13 +22,11 @@ jobs:
       - name: Tailscale run (root)
         run: |
           sudo --preserve-env=TAILSCALE_AUTHKEY /etc/init.d/tailscaled start
-          until sudo tailscale up
+          until sudo tailscale up --hostname github-${HOSTNAME}
           do
               sleep 0.1
           done
-          sudo tailscale set --hostname github-${HOSTNAME}
           sudo tailscale set --advertise-exit-node
-          sudo tailscale set --operator gbraad
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around

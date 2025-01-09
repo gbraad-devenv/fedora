@@ -17,6 +17,7 @@ jobs:
               sleep 0.1
           done
           podman exec rdesktop tailscale set --ssh
+          podman exec rdesktop chmod 640 /etc/shadow
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
       - name: Hang around
