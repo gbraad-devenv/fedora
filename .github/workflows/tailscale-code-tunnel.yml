@@ -1,4 +1,4 @@
-name: tailscale-code
+name: tailscale-code-tunnel
 on:
   workflow_dispatch:
 
@@ -20,12 +20,13 @@ jobs:
           podman exec code chmod 640 /etc/shadow
         env:
           TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
-      - name: Start `code serve-web` as `gbraad`
+      - name: Start `code tunnel` as `gbraad`
         run: |
-          podman exec code systemctl enable --now code-serveweb@gbraad
+          podman exec code code tunnel user login --provider github
+          podman exec code systemctl enable --now code-tunnel@gbraad
       - name: Hang around
         run: |
-          until podman exec code systemctl is-active --quiet code-serveweb@gbraad
+          until podman exec code systemctl is-active --quiet code-tunnel@gbraad
           do
                sleep 1
           done

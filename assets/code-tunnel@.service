@@ -3,7 +3,7 @@ Description=Code Tunnel Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/code tunnel --accept-server-license-terms
+ExecStart=/usr/bin/code tunnel --accept-server-license-terms --name %H
 Restart=always
 User=%i
 
