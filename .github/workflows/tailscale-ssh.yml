@@ -1,0 +1,30 @@
+name: tailscale-code
+on:
+  workflow_dispatch:
+
+jobs:
+  code-test:
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Run system container with `podman`
+        run: |
+          podman run -d --name code --hostname code-${HOSTNAME} --systemd=always --cap-add=NET_RAW --cap-add=NET_ADMIN --cap-add=SYS_ADMIN --device=/dev/net/tun --device=/dev/fuse ghcr.io/gbraad-devenv/fedora/code-cli:41
+      - name: Tailscale setup (root)
+        run: |
+          until podman exec code tailscale up --auth-key ${TAILSCALE_AUTHKEY} --ssh
+          do
+              sleep 0.1
+          done
+          podman exec code chmod 640 /etc/shadow
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
+      - name: Hang around
+        run: |
+          until podman exec code systemctl is-active --quiet tailscaled
+          do
+               sleep 1
+          done
+          IP=`podman exec code tailscale ip -4`
+          echo "Use the following command to connect \`tailscale ssh gbraad@${IP}\`"
+          sleep infinity
