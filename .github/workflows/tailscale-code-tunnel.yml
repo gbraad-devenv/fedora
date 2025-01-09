@@ -30,6 +30,5 @@ jobs:
           do
                sleep 1
           done
-          IP=`podman exec code tailscale ip -4`
-          echo "Open in your web browser: http://${IP}:8000"
+          echo "Connect to tunnel: code-${HOSTNAME}"
           sleep infinity
