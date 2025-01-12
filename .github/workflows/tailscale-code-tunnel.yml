@@ -31,5 +31,6 @@ jobs:
           do
                sleep 1
           done
-          echo "Connect to tunnel: code-${HOSTNAME}"
+          echo "Open in a browser: https://vscode.dev/tunnel/code-${HOSTNAME}"
+          echo "or connect to tunnel: code-${HOSTNAME} using VS Code"
           sleep infinity
