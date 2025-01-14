@@ -1,9 +1,13 @@
 {
     "name": "Fedora developer environment",
-    "image": "ghcr.io/gbraad-devenv/fedora/dotfiles:41",
+    "image": "ghcr.io/gbraad-devenv/fedora/systemd:41",
 
     "runArgs": [ "--cap-add=NET_ADMIN", "--cap-add=NET_RAW", "--device=/dev/net/tun", "--device=/dev/fuse" ],
-    "postStartCommand": "github/install.sh",
+    "postStartCommand": ".github/install.sh",
+
+    "overrideCommand": false,
+	"privileged": true,
+    "remoteUser": "gbraad",
 
     "customizations": {
         "vscode": {
