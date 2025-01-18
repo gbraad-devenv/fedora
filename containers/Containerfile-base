@@ -85,7 +85,5 @@ RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/r
 
 # dotfiles for root
 RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
-    && ~/.dotfiles/install.sh
-
-# change default shell for root
-RUN chsh root -s /bin/zsh
+    && ~/.dotfiles/install.sh \
+    && chsh root -s /bin/zsh

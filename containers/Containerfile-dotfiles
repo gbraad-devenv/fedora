@@ -6,13 +6,14 @@ FROM ${BASE_IMAGE}:${BASE_VERSION}
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
 # Add user with the expected ID (automated setup does not work atm)
-RUN useradd -l -u 1000 -G wheel -md /var/home/gbraad -s /usr/bin/zsh -p gbraad gbraad \
+RUN useradd -l -u 1000 -G wheel -md /var/home/gbraad -s /bin/bash -p gbraad gbraad \
     && sed -i.bkp -e 's/%wheel\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%wheel ALL=NOPASSWD:ALL/g' /etc/sudoers
 
 USER gbraad
 
 RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
-    && ~/.dotfiles/install.sh
+    && ~/.dotfiles/install.sh \
+    && sudo chsh gbraad -s /bin/zsh
 
 RUN mkdir -p ~/.ssh/ \
     && curl https://github.com/gbraad.keys | tee -a ~/.ssh/authorized_keys
