@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    name: Build qcow2 image
+    name: Build qcow2 diskimages
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -38,6 +38,9 @@ jobs:
         sudo mkdir -p /mnt/var/lib/containers
         sudo mount -o bind /mnt/var/lib/containers /var/lib/containers
         sudo mkdir /var/lib/containers/storage
+
+    - name: Create shared user configuration
+      run: cat config.toml.in > config.toml
 
     - name: Build image - dotfiles
       id: build-image-dotfiles
