@@ -1,15 +1,14 @@
 ARG BASE_IMAGE="quay.io/fedora/fedora"
 ARG BASE_VERSION="41"
 
-FROM ${BASE_IMAGE}:${BASE_VERSION} AS base
+FROM ${BASE_IMAGE}:${BASE_VERSION}
 
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
 USER root
 
-# Add user with the expected ID (automated setup does not work atm)
-RUN useradd -l -u 1000 -G wheel -md /home/gbraad -s /usr/bin/zsh -p gbraad gbraad \
-    && sed -i.bkp -e 's/%wheel\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%wheel ALL=NOPASSWD:ALL/g' /etc/sudoers
+# fix issue with sudo and SSH
+RUN chmod 640 /etc/shadow
 
 # essential packages
 RUN dnf install -y \
@@ -34,13 +33,9 @@ COPY assets/tailscaled /etc/init.d/tailscaled
 #    && rm -rf /var/cache/yum
 
 RUN dnf install -y \
-        zsh mc vim tmux screen links lynx z stow wget procps-ng \
+        zsh mc vim tmux links lynx z stow wget procps-ng \
     && dnf clean all \
     && rm -rf /var/cache/yum
-
-# dotfiles for root
-RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
-    && ~/.dotfiles/install.sh
 
 # powerline
 RUN dnf install -y \
@@ -86,10 +81,9 @@ RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/r
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+# dotfiles for root
+RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
+    && ~/.dotfiles/install.sh
+
 # change default shell for root
 RUN chsh root -s /bin/zsh
-
-# fix issue with sudo and SSH
-RUN chmod 640 /etc/shadow
-
-USER gbraad
