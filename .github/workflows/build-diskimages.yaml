@@ -94,6 +94,32 @@ jobs:
     - name: Rename output file - rdesktop
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/rdesktop-disk.qcow2
 
+    - name: Build image - code-cli
+      id: build-image-code-cli
+      run: |
+        mkdir -p ./output
+        sudo podman pull ${{ env.IMAGE_NAME }}
+        sudo podman run \
+          --rm \
+          -it \
+          --privileged \
+          --pull=newer \
+          --security-opt label=type:unconfined_t \
+          -v ./config.toml:/config.toml:ro \
+          -v ./output:/output \
+          -v /var/lib/containers/storage:/var/lib/containers/storage \
+          ${{ env.BIB_IMAGE }} \
+          --target-arch ${{ env.ARCH }} \
+          --type ${{ env.DISK_TYPE }} \
+          --rootfs ${{ env.ROOTFS }} \
+          --local \
+          ${{ env.IMAGE_NAME }}
+      env:
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/code-cli-bootc:41
+
+    - name: Rename output file - code-cli
+      run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/code-cli-disk.qcow2
+
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:
