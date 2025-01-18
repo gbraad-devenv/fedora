@@ -19,6 +19,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Run podman build - rdesktop
-        run: podman build -t ghcr.io/gbraad-devenv/fedora/rdesktop:41 -f containers/Containerfile-rdesktop .
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/rdesktop:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-rdesktop .
       - name: Push image to ghcr.io - rdesktop
-        run: podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} ghcr.io/gbraad-devenv/fedora/rdesktop:41
+        run: |
+          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
+            ghcr.io/gbraad-devenv/fedora/rdesktop:41
