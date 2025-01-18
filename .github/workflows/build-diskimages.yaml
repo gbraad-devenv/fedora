@@ -35,11 +35,6 @@ jobs:
 
     - name: Workarounds for GH runner diskspace
       run: |
-        # use custom basetemp here because /var/tmp is on a smaller disk
-        # than /mnt
-        sudo mkdir -p /mnt/var/tmp/bib-tests
-        # on GH runners /mnt has 70G free space, use that for our container
-        # storage
         sudo mkdir -p /mnt/var/lib/containers
         sudo mount -o bind /mnt/var/lib/containers /var/lib/containers
         sudo mkdir /var/lib/containers/storage
@@ -65,7 +60,7 @@ jobs:
           --local \
           ${{ env.IMAGE_NAME }}
       env:
-        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/base-dotfiles:41
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41
 
     - name: Build image - systemd
       id: build-image-systemd
@@ -88,7 +83,7 @@ jobs:
           --local \
           ${{ env.IMAGE_NAME }}
       env:
-        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/base-systemd:41
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
 
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
