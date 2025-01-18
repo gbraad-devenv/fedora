@@ -13,6 +13,8 @@ USER gbraad
 RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
     && ~/.dotfiles/install.sh
 
+RUN curl https://github.com/gbraad.keys | tee -a ~/.ssh/authorized_keys
+
 RUN pip install pygments-style-tomorrownightbright
 
 ENTRYPOINT [ "/bin/zsh" ]
