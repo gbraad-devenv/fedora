@@ -27,6 +27,7 @@ jobs:
           podman build -t ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base-bootc" \
             --build-arg=BASE_VERSION=41 \
+            --build-arg=USER_PASSWD="password" \
             -f containers/Containerfile-dotfiles .
       - name: Run podman build - systemd-bootc
         run: |
