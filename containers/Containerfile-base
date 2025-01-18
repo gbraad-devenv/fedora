@@ -13,6 +13,8 @@ RUN chmod 640 /etc/shadow
 # essential packages
 RUN dnf install -y \
         dnf-plugins-core git-core \
+    && dnf install -y \
+        'dnf5-command(config-manager)' \
     && dnf clean all \
     && rm -rf /var/cache/yum
 

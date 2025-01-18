@@ -27,11 +27,13 @@ jobs:
       - name: Run podman build - dotfiles
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/dotfiles:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base" \
             --build-arg=BASE_VERSION=41 \
             -f containers/Containerfile-dotfiles .
       - name: Run podman build - systemd
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/systemd:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/dotfiles" \
             --build-arg=BASE_VERSION=41 \
             -f containers/Containerfile-systemd .
       - name: Push image to ghcr.io - base

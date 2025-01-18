@@ -1,0 +1,48 @@
+name: build containers (bootc)
+run-name: building containers (bootc)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Run podman build - base-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/base-bootc:41 \
+            --build-arg=BASE_IMAGE="quay.io/fedora/fedora-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-base .
+      - name: Run podman build - dotfiles-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-dotfiles .
+      - name: Run podman build - systemd-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/systemd-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/dotfiles-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-systemd .
+      - name: Push image to ghcr.io - base-bootc
+        run: |
+          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
+            ghcr.io/gbraad-devenv/fedora/base-bootc:41
+      - name: Push image to ghcr.io - dotfiles-bootc
+        run: |
+          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
+            ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41
+      - name: Push image to ghcr.io - systemd-bootc
+        run: |
+          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
+            ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
