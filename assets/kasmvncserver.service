@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
-WorkingDirectory=/home/gbraad
+WorkingDirectory=/var/home/gbraad
 User=gbraad
 Group=gbraad
 
