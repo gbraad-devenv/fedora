@@ -68,6 +68,14 @@ jobs:
     - name: Rename output file - systemd
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/systemd-disk.qcow2
 
+    - name: Upload Artifact - systemd
+      uses: actions/upload-artifact@v4
+      with:
+        name: systemd-disk
+        path: |
+          ./output/qcow2/systemd-disk.qcow2
+        retention-days: 5
+
     - name: Build image - rdesktop
       id: build-image-rdesktop
       run: |
@@ -93,6 +101,14 @@ jobs:
 
     - name: Rename output file - rdesktop
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/rdesktop-disk.qcow2
+
+    - name: Upload Artifact - rdesktop
+      uses: actions/upload-artifact@v4
+      with:
+        name: rdesktop-disk
+        path: |
+          ./output/qcow2/rdesktop-disk.qcow2
+        retention-days: 5
 
     - name: Build image - code-cli
       id: build-image-code-cli
@@ -120,11 +136,10 @@ jobs:
     - name: Rename output file - code-cli
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/code-cli-disk.qcow2
 
-    - name: Upload Artifact
+    - name: Upload Artifact - code-cli
       uses: actions/upload-artifact@v4
       with:
-        name: diskimages
+        name: code-cli-disk
         path: |
-          ./output/iso/*
-          ./output/qcow2/*
+          ./output/qcow2/code-cli-disk.qcow2
         retention-days: 5
