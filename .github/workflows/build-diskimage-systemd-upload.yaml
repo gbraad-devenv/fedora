@@ -1,0 +1,76 @@
+name: build diskimage - systemd (bootc) - upload
+run-name: building diskimage - systemd (bootc) - upload
+on:
+  workflow_dispatch:
+
+env:
+    DISK_TYPE: qcow2
+    ROOTFS: xfs
+    ARCH: amd64
+    BIB_IMAGE: quay.io/centos-bootc/bootc-image-builder:latest
+
+jobs:
+  build:
+    name: Build qcow2 diskimage - systemd
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+
+    steps:
+    - name: Remove unwanted stuff
+      uses: gbraad-actions/remove-unwanted@v1
+
+    - uses: actions/checkout@v4
+
+    - name: Workaround podman issues in GH actions
+      run: |
+        # see https://github.com/osbuild/bootc-image-builder/issues/446
+        sudo rm -rf /var/lib/containers/storage
+        sudo mkdir -p /etc/containers
+        echo -e "[storage]\ndriver = \"overlay\"\nrunroot = \"/run/containers/storage\"\ngraphroot = \"/var/lib/containers/storage\"" | sudo tee /etc/containers/storage.conf
+
+    - name: Workarounds for GH runner diskspace
+      run: |
+        sudo mkdir -p /mnt/var/lib/containers
+        sudo mount -o bind /mnt/var/lib/containers /var/lib/containers
+        sudo mkdir /var/lib/containers/storage
+
+    - name: Create shared user configuration
+      run: cat config.toml.in > config.toml
+
+    - name: Build image - systemd
+      id: build-image-systemd
+      run: |
+        mkdir -p ./output
+        sudo podman pull ${{ env.IMAGE_NAME }}
+        sudo podman run \
+          --rm \
+          -it \
+          --privileged \
+          --pull=newer \
+          --security-opt label=type:unconfined_t \
+          -v ./config.toml:/config.toml:ro \
+          -v ./output:/output \
+          -v /var/lib/containers/storage:/var/lib/containers/storage \
+          ${{ env.BIB_IMAGE }} \
+          --target-arch ${{ env.ARCH }} \
+          --type ${{ env.DISK_TYPE }} \
+          --rootfs ${{ env.ROOTFS }} \
+          --local \
+          ${{ env.IMAGE_NAME }}
+      env:
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
+
+    - name: Rename output file - systemd
+      run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/systemd-disk.qcow2
+
+    - name: Upload Artifact - systemd
+      uses: actions/upload-artifact@v4
+      with:
+        name: systemd-disk
+        path: |
+          ./output/qcow2/systemd-disk.qcow2
+        retention-days: 5
