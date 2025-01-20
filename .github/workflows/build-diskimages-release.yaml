@@ -1,5 +1,5 @@
-name: build diskimages (bootc)
-run-name: building diskimages (bootc)
+name: build diskimages (bootc) - release
+run-name: building diskimages (bootc) - release
 on:
   workflow_dispatch:
 

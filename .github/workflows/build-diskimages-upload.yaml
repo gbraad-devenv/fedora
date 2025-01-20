@@ -1,5 +1,5 @@
-name: build diskimages (bootc)
-run-name: building diskimages (bootc)
+name: build diskimages (bootc) - upload
+run-name: building diskimages (bootc) - upload
 on:
   workflow_dispatch:
 
