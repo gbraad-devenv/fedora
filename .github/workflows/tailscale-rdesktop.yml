@@ -11,7 +11,9 @@ jobs:
         uses: gbraad-devenv/remove-unwanted@v1
       - name: Run system container with `podman`
         run: |
-          podman run -d --name rdesktop --hostname code-${HOSTNAME} ghcr.io/gbraad-devenv/fedora/rdesktop:41
+          podman run -d --name rdesktop --hostname code-${HOSTNAME} \
+            --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun --device=/dev/fuse \
+            ghcr.io/gbraad-devenv/fedora/rdesktop:41
       - name: Tailscale setup (root)
         run: |
           until podman exec rdesktop tailscale up --auth-key ${TAILSCALE_AUTHKEY}
