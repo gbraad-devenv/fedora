@@ -1,0 +1,11 @@
+[Unit]
+Description=kclient wrapper
+
+[Service]
+Type=simple
+User=gbraad
+ExecStart=/usr/bin/env node /opt/kclient/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
