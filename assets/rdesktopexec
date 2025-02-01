@@ -1,0 +1,6 @@
+#!/bin/sh
+
+CONFIG="./rdesktop.ini"
+alias rdesktopini="git config -f $CONFIG"
+
+eval $(rdesktopini --get rdesktop.exec)

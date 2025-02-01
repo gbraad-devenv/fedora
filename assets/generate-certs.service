@@ -1,0 +1,12 @@
+[Unit]
+Description=Generate certificates for rdesktop services
+Before=kasnvncservice.service
+Before=kclient.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'if [ ! -f /opt/rdesktop/certificate.pem ]; then /etc/rdesktop/generate-certs.sh ; fi'
+
+[Install]
+WantedBy=kasmvncserver.service
+WantedBy=kclient.service

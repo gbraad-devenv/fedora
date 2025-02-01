@@ -1,9 +1,31 @@
 ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd"
 ARG BASE_VERSION="41"
 
+FROM ${BASE_IMAGE}:${BASE_VERSION} as kclient-build
+
+RUN dnf install -y \
+	"@development-tools" \
+	gcc-c++ \
+	nodejs \
+	nodejs-devel \
+	pulseaudio-libs-devel
+
+RUN cd /opt \
+	&& git clone https://github.com/gbraad-devenv/kclient \
+	&& cd kclient \
+	&& npm install .
+
+
 FROM ${BASE_IMAGE}:${BASE_VERSION}
 
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
+
+# audio support
+RUN dnf install -y \
+	pulseaudio \
+	alsa-plugins-pulseaudio \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
 
 # graphical
 RUN dnf install -y \
@@ -25,15 +47,36 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+# kasmvnc
 RUN dnf install -y https://github.com/spotsnel/AltRPMS-KasmVNC/releases/download/1.3.3/kasmvncserver-1.3.3-1.fc41.x86_64.rpm \
     && dnf clean all \
     && rm -rf /var/cache/yum \
     && usermod -a -G kasmvnc-cert gbraad
 
 COPY assets/kasmvncserver.service /etc/systemd/system
+COPY assets/kasmvnc.yaml /etc/kasmvnc/
+
+COPY assets/pulseaudio.service /etc/systemd/system
+
+RUN usermod -aG pulse-access gbraad \
+    && mkdir -p /etc/rdesktop
+
+COPY assets/rdesktop.ini /etc/rdesktop/rdesktop.ini
+COPY assets/rdesktopexec /usr/bin
+
+RUN dnf install -y \
+	nodejs \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+
+COPY --from=kclient-build /opt/kclient /opt/kclient
+COPY assets/kclient.service /etc/systemd/system
 
 # Userspace does not expose 100.100.100.100
 #RUN sed -i 's/^FLAGS=".*"/FLAGS="--tun=userspace-networking"/' /etc/default/tailscaled
+
+COPY assets/generate-certs.service /etc/systemd/system
+COPY assets/generate-certs.sh /etc/rdesktop
 
 USER gbraad
 
@@ -41,11 +84,15 @@ RUN mkdir -p ~/.vnc \
     && echo $'#!/bin/sh\ni3 &' > ~/.vnc/xstartup \
     && chmod +x ~/.vnc/xstartup \
     && /bin/bash -c "echo -e 'password\npassword\n\n' | kasmvncpasswd -u gbraad -w" \
-    && touch ~/.vnc/.de-was-selected    
+    && touch ~/.vnc/.de-was-selected 
 
 # systemd is already set up in systemd image; make sure to use root
 USER root
 
-RUN systemctl enable kasmvncserver
+RUN systemctl enable kasmvncserver \
+    && systemctl enable pulseaudio \
+    && systemctl enable kclient \
+    && systemctl enable generate-certs
 
 #ENTRYPOINT ["/sbin/init"]
+
