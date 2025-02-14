@@ -9,10 +9,9 @@ tasks:
   - name: dotfiles
     command: |
       if [ ! -d "~/.dotfiles" ]; then
-        cd /tmp
-        curl -sSL https://raw.githubusercontent.com/gbraad-dotfiles/upstream/master/install.sh -o /tmp/install.sh &&
-        rm -f ~/.zshrc &&
-        sh /tmp/install.sh
+        git clone https://github.com/gbraad-dotfiles/upstream ~/.dotfiles
+        rm -f ~/.zshrc
+        ~/.dotfiles/install.sh
       fi
       mv ~/.bashrc-nochsh ~/.bashrc
   - name: github
