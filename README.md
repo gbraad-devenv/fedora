@@ -15,7 +15,7 @@ Usage
   * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/gbraad-devenv/fedora)
   * Open in [GitHub Codespaces](https://codespaces.new/gbraad-devenv/fedora)
   * Open in [CodeSandbox](https://codesandbox.io/p/github/gbraad-devenv/fedora)
-  * `dev fed env`, `dev fed sys` in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
+  * `dev fed env`, `dev fed sys` in [my dotfiles](https://github.com/gbraad-dotfiles/upstream/blob/main/zsh/.zshrc.d/devenv.zsh)
   * Toobox/distrobox using `ghcr.io/gbraad-devenv/fedora/toolbox:41`
 
 
@@ -32,7 +32,7 @@ $ podman run -it --cap-add=NET_ADMIN --cap-add=NET_RAW --device=/dev/net/tun ghc
 ```
 
 > [!NOTE]
-> For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad/dotfiles/blob/main/zsh/.zshrc.d/devenv.zsh)
+> For more information about the [container](docs/podman.md) build and usage in [my dotfiles](https://github.com/gbraad-dotfiles/upstream/blob/main/zsh/.zshrc.d/devenv.zsh)
 
 
 ### Devbox

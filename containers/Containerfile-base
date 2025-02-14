@@ -84,6 +84,6 @@ RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/r
     && rm -rf /var/cache/yum
 
 # dotfiles for root
-RUN git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
+RUN git clone https://github.com/gbraad-dotfiles/upstream ~/.dotfiles \
     && ~/.dotfiles/install.sh \
     && chsh root -s /bin/zsh
