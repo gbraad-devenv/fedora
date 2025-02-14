@@ -10,7 +10,7 @@ tasks:
     command: |
       if [ ! -d "~/.dotfiles" ]; then
         cd /tmp
-        curl -sSL https://raw.githubusercontent.com/gbraad/dotfiles/master/install.sh -o /tmp/install.sh &&
+        curl -sSL https://raw.githubusercontent.com/gbraad-dotfiles/upstream/master/install.sh -o /tmp/install.sh &&
         rm -f ~/.zshrc &&
         sh /tmp/install.sh
       fi

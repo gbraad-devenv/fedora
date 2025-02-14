@@ -17,7 +17,7 @@ RUN useradd -l -u 1000 -G users,wheel -md /var/home/gbraad -s /bin/bash -p gbraa
 USER gbraad
 
 RUN rm -f ~/.zshrc \
-    && git clone https://github.com/gbraad/dotfiles ~/.dotfiles \
+    && git clone https://github.com/gbraad-dotfiles/upstream ~/.dotfiles \
     && ~/.dotfiles/install.sh \
     && sudo chsh gbraad -s /bin/zsh
 
