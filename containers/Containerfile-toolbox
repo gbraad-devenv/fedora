@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base"
+ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rebase"
 ARG BASE_VERSION="41"
 
 FROM ${BASE_IMAGE}:${BASE_VERSION}

@@ -16,16 +16,16 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Run podman build - base-bootc
+      - name: Run podman build - rebase-bootc
         run: |
-          podman build -t ghcr.io/gbraad-devenv/fedora/base-bootc:41 \
-            --build-arg=BASE_IMAGE="quay.io/fedora/fedora-bootc" \
+          podman build -t ghcr.io/gbraad-devenv/fedora/rebase-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/fedora-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-base .
+            -f containers/Containerfile-rebase .
       - name: Run podman build - dotfiles-bootc
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41 \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base-bootc" \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rebase-bootc" \
             --build-arg=BASE_VERSION=41 \
             --build-arg=USER_PASSWD="password" \
             -f containers/Containerfile-dotfiles .
@@ -35,15 +35,16 @@ jobs:
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/dotfiles-bootc" \
             --build-arg=BASE_VERSION=41 \
             -f containers/Containerfile-systemd .
-      - name: Push image to ghcr.io - base-bootc
+      - name: Login to ghcr.io
         run: |
-          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-            ghcr.io/gbraad-devenv/fedora/base-bootc:41
+          podman login ghcr.io -u ${{ github.actor }} \
+            -p ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image to ghcr.io - rebase-bootc
+        run: |
+          podman push ghcr.io/gbraad-devenv/fedora/rebase-bootc:41
       - name: Push image to ghcr.io - dotfiles-bootc
         run: |
-          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-            ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41
+          podman push ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41
       - name: Push image to ghcr.io - systemd-bootc
         run: |
-          podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-            ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
+          podman push ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
