@@ -120,10 +120,13 @@ jobs:
     - name: Rename output file - code-cli
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/code-cli-disk.qcow2
 
+    - name: Set release tag
+      run: echo "TAG=$(date +'%y%m%d')" >> $GITHUB_ENV
+
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:
-        tag: latest
-        name: Latest disk images
+        tag: ${{ env.TAG }}
+        name: Disk images (${{ env.TAG }})
         body: ${{ env.BODY }}
         artifacts: "output/bootiso/*.iso,./output/qcow2/*,"
