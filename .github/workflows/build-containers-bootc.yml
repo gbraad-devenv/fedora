@@ -1,9 +1,12 @@
 name: build containers (bootc)
 run-name: building containers (bootc)
+
 on:
   workflow_dispatch:
+
 jobs:
   build:
+    name: build-containers-bootc
     permissions:
       contents: read
       packages: write
@@ -12,7 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-latest
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4

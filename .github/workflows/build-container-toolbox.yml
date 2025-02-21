@@ -1,11 +1,12 @@
 name: build container - toolbox
 run-name: building container - toolbox
+
 on:
-  schedule:
-    - cron: "0 0 1 * *"
   workflow_dispatch:
+
 jobs:
   build:
+    name: build-container-toolbox
     permissions:
       contents: read
       packages: write
@@ -14,7 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-latest
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4

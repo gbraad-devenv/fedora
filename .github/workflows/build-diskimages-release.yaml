@@ -1,6 +1,9 @@
 name: build diskimages (bootc) - release
 run-name: building diskimages (bootc) - release
+
 on:
+  schedule:
+    - cron: "0 2 */2 * *"
   workflow_dispatch:
 
 env:
@@ -18,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-latest
 
     steps:
     - name: Remove unwanted stuff
