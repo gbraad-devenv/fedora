@@ -43,12 +43,6 @@ jobs:
         run: |
           podman login ghcr.io -u ${{ github.actor }} \
             -p ${{ secrets.GITHUB_TOKEN }}
-      - name: Push image to ghcr.io - rebase-bootc
-        run: |
-          podman push ghcr.io/gbraad-devenv/fedora/rebase-bootc:41
-      - name: Push image to ghcr.io - dotfiles-bootc
-        run: |
-          podman push ghcr.io/gbraad-devenv/fedora/dotfiles-bootc:41
       - name: Push image to ghcr.io - systemd-bootc
         run: |
           podman push ghcr.io/gbraad-devenv/fedora/systemd-bootc:41

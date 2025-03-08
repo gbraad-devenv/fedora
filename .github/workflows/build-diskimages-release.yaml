@@ -123,6 +123,37 @@ jobs:
     - name: Rename output file - code-cli
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/code-cli-disk.qcow2
 
+    - name: Build image - workstation
+      id: build-image-workstation
+      run: |
+        mkdir -p ./output
+        sudo podman pull ${{ env.IMAGE_NAME }}
+        sudo podman run \
+          --rm \
+          -it \
+          --privileged \
+          --pull=newer \
+          --security-opt label=type:unconfined_t \
+          -v ./config.toml:/config.toml:ro \
+          -v ./output:/output \
+          -v /var/lib/containers/storage:/var/lib/containers/storage \
+          ${{ env.BIB_IMAGE }} \
+          --target-arch ${{ env.ARCH }} \
+          --type ${{ env.DISK_TYPE }} \
+          --rootfs ${{ env.ROOTFS }} \
+          --local \
+          ${{ env.IMAGE_NAME }}
+      env:
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/workstation-systemd-bootc:41
+
+    - name: Rename output file - workstation
+      run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/workstation-disk.qcow2
+
+    - name: Split output result
+      run: |
+        sudo split -b 1800M --numeric-suffixes=0 --suffix-length=1 \
+          ./output/qcow2/workstation-disk.qcow2 ./output/qcow2/workstation-disk.qcow2_part
+      
     - name: Set release tag
       run: echo "TAG=$(date +'%y%m%d')" >> $GITHUB_ENV
 
