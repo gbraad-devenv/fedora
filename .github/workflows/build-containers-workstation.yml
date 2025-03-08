@@ -1,0 +1,56 @@
+name: build containers (workstation-bootc)
+run-name: building containers (workstation-bootc)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build-containers-workstation
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Run podman build - workstation-rebase-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/workstation-rebase-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/fedora-workstation-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-rebase .
+      - name: Run podman build - workstation-dotfiles-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedora/workstation-dotfiles-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/workstation-rebase-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            --build-arg=USER_PASSWD="password" \
+            -f containers/Containerfile-dotfiles .
+      - name: Run podman build - workstation-systemd-bootc
+        run: |
+          podman build -t ghcr.io/gbraad-devenv/fedoraworkstation-/systemd-bootc:41 \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/workstation-dotfiles-bootc" \
+            --build-arg=BASE_VERSION=41 \
+            -f containers/Containerfile-systemd .
+
+      - name: Login to ghcr.io
+        run: |
+          podman login ghcr.io -u ${{ github.actor }} \
+            -p ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image to ghcr.io - workstation-rebase-bootc
+        run: |
+          podman push ghcr.io/gbraad-devenv/fedora/workstation-rebase-bootc:41
+      - name: Push image to ghcr.io - workstation-dotfiles-bootc
+        run: |
+          podman push ghcr.io/gbraad-devenv/fedora/workstation-dotfiles-bootc:41
+      - name: Push image to ghcr.io - workstation-systemd-bootc
+        run: |
+          podman push ghcr.io/gbraad-devenv/fedora/workstation-systemd-bootc:41

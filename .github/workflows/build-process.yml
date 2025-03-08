@@ -41,6 +41,20 @@ jobs:
               ref: context.ref,
             });
 
+  trigger-build-containers-workstation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start workstation-bootc containers build
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build-containers-workstation.yml',
+              ref: context.ref,
+            });
+
 
   wait-for-build-containers:
     runs-on: ubuntu-latest
@@ -67,12 +81,25 @@ jobs:
           check-name: 'build-containers-bootc (ubuntu-latest)'
           wait-interval: 10
 
+  wait-for-build-containers-workstation:
+    runs-on: ubuntu-latest
+    needs: trigger-build-containers-workstation
+    steps:
+      - name: Wait for build-container-centos to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: 'build-containers-workstation (ubuntu-latest)'
+          wait-interval: 10
+
 
   trigger-build-containers-optional:
     runs-on: ubuntu-latest
     needs:
       - wait-for-build-containers
       - wait-for-build-containers-bootc
+      - wait-for-build-containers-workstation
     steps:
       - name: Start optional container - code
         uses: actions/github-script@v7
