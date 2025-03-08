@@ -7,9 +7,6 @@ LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora
 
 USER root
 
-# install tailscale
-COPY assets/tailscaled /etc/init.d/tailscaled
-
 RUN dnf install -y \
         mc links lynx z wget procps-ng \
     && dnf clean all \
