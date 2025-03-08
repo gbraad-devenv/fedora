@@ -144,7 +144,7 @@ jobs:
           --local \
           ${{ env.IMAGE_NAME }}
       env:
-        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/workstation-systemd-bootc:41
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/workstation-bootc:41
 
     - name: Rename output file - workstation
       run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/workstation-disk.qcow2
