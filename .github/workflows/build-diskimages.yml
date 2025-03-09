@@ -1,0 +1,113 @@
+name: build diskimage containers
+run-name: Building diskimage containers
+
+on:
+  schedule:
+    - cron: "0 2 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  trigger-build-diskimage-code-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start code-cli diskimage build
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build-diskimage-code-cli.yml',
+              ref: context.ref,
+            });
+
+  trigger-build-diskimage-rdesktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start rdesktop diskimage build
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build-diskimage-rdesktop.yml',
+              ref: context.ref,
+            });
+
+  trigger-build-diskimage-systemd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start systemd diskimage build
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build-diskimage-systemd.yml',
+              ref: context.ref,
+            });
+
+  trigger-build-diskimage-workstation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start workstation diskimage build
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build-diskimage-workstation.yml',
+              ref: context.ref,
+            });
+
+
+  wait-for-build-diskimage-code-cli:
+    runs-on: ubuntu-latest
+    needs: trigger-build-diskimage-code-cli
+    steps:
+      - name: Wait for build-diskimage-code-cli to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: 'build-diskimage-code-cli (ubuntu-latest)'
+          wait-interval: 10
+
+  wait-for-build-diskimage-rdesktop:
+    runs-on: ubuntu-latest
+    needs: trigger-build-diskimage-rdesktop
+    steps:
+      - name: Wait for build-diskimage-rdesktop to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: 'build-diskimage-rdesktop (ubuntu-latest)'
+          wait-interval: 10
+
+  wait-for-build-diskimage-systemd:
+    runs-on: ubuntu-latest
+    needs: trigger-build-diskimage-systemd
+    steps:
+      - name: Wait for build-diskimage-systemd to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }} 
+          check-name: 'build-diskimage-systemd (ubuntu-latest)'
+          wait-interval: 10
+
+  wait-for-build-diskimage-workstation:
+    runs-on: ubuntu-latest
+    needs: trigger-build-diskimage-workstation
+    steps:
+      - name: Wait for build-diskimage-workstation to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }} 
+          check-name: 'build-diskimage-workstation (ubuntu-latest)'
+          wait-interval: 10

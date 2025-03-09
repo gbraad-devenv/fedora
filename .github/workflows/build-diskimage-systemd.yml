@@ -1,6 +1,9 @@
-name: build diskimage - systemd (bootc) - upload
-run-name: building diskimage - systemd (bootc) - upload
+name: build diskimage - systend-bootc
+run-name: Building diskimage - systemd-bootc
+
 on:
+  schedule:
+    - cron: "0 2 */2 * *"
   workflow_dispatch:
 
 env:
@@ -8,16 +11,17 @@ env:
     ROOTFS: xfs
     ARCH: amd64
     BIB_IMAGE: quay.io/centos-bootc/bootc-image-builder:latest
+    BODY: "Fedora disk images"
 
 jobs:
   build:
-    name: Build qcow2 diskimage - systemd
+    name: build-diskimage-systemd
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-latest
 
     steps:
     - name: Remove unwanted stuff
@@ -38,7 +42,7 @@ jobs:
         sudo mount -o bind /mnt/var/lib/containers /var/lib/containers
         sudo mkdir /var/lib/containers/storage
 
-    - name: Create shared user configuration
+    - name: Create user configuration
       run: cat config.toml.in > config.toml
 
     - name: Build image - systemd
@@ -64,13 +68,30 @@ jobs:
       env:
         IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
 
-    - name: Rename output file - systemd
-      run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/systemd-disk.qcow2
+    - name: Set release tag
+      id: get-tag
+      run: |
+        echo "TAG=$(date +'%y%m%d')" >> $GITHUB_OUTPUT
 
-    - name: Upload Artifact - systemd
-      uses: actions/upload-artifact@v4
-      with:
-        name: systemd-disk
-        path: |
-          ./output/qcow2/systemd-disk.qcow2
-        retention-days: 5
+    - name: Wrap disk image in container
+      run: |
+        podman build -t ghcr.io/gbraad-devenv/fedora/systemd-disk:latest \
+          -f containers/Containerfile-disk .
+
+    - name: Tag image container
+      run: |
+        podman tag ghcr.io/gbraad-devenv/fedora/systemd-disk:latest \
+          ghcr.io/gbraad-devenv/fedora/systemd-disk:41
+        podman tag ghcr.io/gbraad-devenv/fedora/systemd-disk:latest \
+          ghcr.io/gbraad-devenv/fedora/systemd-disk:${{steps.get-tag.outputs.TAG}}
+
+    - name: Login to registry
+      run: |
+        podman login ghcr.io -u ${{ github.actor }} \
+          -p ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push image container to registry
+      run: |
+        podman push ghcr.io/gbraad-devenv/fedora/systemd-disk:latest
+        podman push ghcr.io/gbraad-devenv/fedora/systemd-disk:41
+        podman push ghcr.io/gbraad-devenv/fedora/systemd-disk:${{steps.get-tag.outputs.TAG}}

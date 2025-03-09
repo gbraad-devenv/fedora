@@ -1,6 +1,9 @@
-name: build diskimage - rdesktop (bootc) - upload
-run-name: building diskimage - rdesktop (bootc) - upload
+name: build diskimage - workstation-bootc
+run-name: Building diskimage - workstation-bootc
+
 on:
+  schedule:
+    - cron: "0 2 */2 * *"
   workflow_dispatch:
 
 env:
@@ -8,16 +11,17 @@ env:
     ROOTFS: xfs
     ARCH: amd64
     BIB_IMAGE: quay.io/centos-bootc/bootc-image-builder:latest
+    BODY: "Fedora disk images"
 
 jobs:
   build:
-    name: Build qcow2 diskimage - rdesktop
+    name: build-diskimage-workstation
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-latest
 
     steps:
     - name: Remove unwanted stuff
@@ -38,11 +42,11 @@ jobs:
         sudo mount -o bind /mnt/var/lib/containers /var/lib/containers
         sudo mkdir /var/lib/containers/storage
 
-    - name: Create shared user configuration
+    - name: Create user configuration
       run: cat config.toml.in > config.toml
 
-    - name: Build image - rdesktop
-      id: build-image-rdesktop
+    - name: Build image - workstation
+      id: build-image-workstation
       run: |
         mkdir -p ./output
         sudo podman pull ${{ env.IMAGE_NAME }}
@@ -62,15 +66,32 @@ jobs:
           --local \
           ${{ env.IMAGE_NAME }}
       env:
-        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/rdesktop-bootc:41
+        IMAGE_NAME: ghcr.io/gbraad-devenv/fedora/workstation-bootc:41
 
-    - name: Rename output file - rdesktop
-      run: sudo mv ./output/qcow2/disk.qcow2 ./output/qcow2/rdesktop-disk.qcow2
+    - name: Set release tag
+      id: get-tag
+      run: |
+        echo "TAG=$(date +'%y%m%d')" >> $GITHUB_OUTPUT
 
-    - name: Upload Artifact - rdesktop
-      uses: actions/upload-artifact@v4
-      with:
-        name: rdesktop-disk
-        path: |
-          ./output/qcow2/rdesktop-disk.qcow2
-        retention-days: 5
+    - name: Wrap disk image in container
+      run: |
+        podman build -t ghcr.io/gbraad-devenv/fedora/workstation-disk:latest \
+          -f containers/Containerfile-disk .
+
+    - name: Tag image container
+      run: |
+        podman tag ghcr.io/gbraad-devenv/fedora/workstation-disk:latest \
+          ghcr.io/gbraad-devenv/fedora/workstation-disk:41
+        podman tag ghcr.io/gbraad-devenv/fedora/workstation-disk:latest \
+          ghcr.io/gbraad-devenv/fedora/workstation-disk:${{steps.get-tag.outputs.TAG}}
+
+    - name: Login to registry
+      run: |
+        podman login ghcr.io -u ${{ github.actor }} \
+          -p ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push image container to registry
+      run: |
+        podman push ghcr.io/gbraad-devenv/fedora/workstation-disk:latest
+        podman push ghcr.io/gbraad-devenv/fedora/workstation-disk:41
+        podman push ghcr.io/gbraad-devenv/fedora/workstation-disk:${{steps.get-tag.outputs.TAG}}
