@@ -1,0 +1,25 @@
+name: tailscale-ssh-blacksmith
+on:
+  workflow_dispatch:
+
+jobs:
+  code-test:
+    runs-on: blacksmith
+    container:
+      image: ghcr.io/gbraad-devenv/fedora/dotfiles:41
+      options: --privileged
+    
+    steps:
+      - name: Tailscale
+        uses: gbraad-actions/start-tailscale@v1
+        with:
+          args: --ssh --accept-dns=false --operator=runner --advertise-exit-node
+          hostname: blacksmith
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Hang around
+        run: |
+          IP=`tailscale ip -4`
+          echo "Use the following command to connect \`tailscale ssh gbraad@${IP}\`"
+          sleep infinity
+
