@@ -15,7 +15,8 @@
                 "ms-vscode.Theme-TomorrowKit",
                 "ritwickdey.LiveServer",
                 "ms-toolsai.jupyter",
-                "ms-python.python"
+                "ms-python.python",
+                "gbraad.systemd-universal-manager"
             ]
         }
     }
