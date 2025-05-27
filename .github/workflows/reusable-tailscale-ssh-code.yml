@@ -118,6 +118,8 @@ jobs:
           do
                sleep 1
           done
+          IP=`podman exec ${{ inputs.prefix_name }}sys tailscale ip -4`
+          echo "Open in your web browser: http://${IP}:8000"
 
       - name: Start `code tunnel` service as `gbraad`
         if: ${{ inputs.mode == 'tunnel' }}
@@ -127,12 +129,11 @@ jobs:
           until podman exec ${{ inputs.prefix_name }}sys systemctl is-active --quiet code-tunnel@gbraad
           do
                sleep 1
-          done          
+          done
+          echo "Open in a browser: https://vscode.dev/tunnel/${{ inputs.prefix_name }}sys"
 
       - name: Hang around
         run: |
-          IP=`podman exec ${{ inputs.prefix_name }}sys tailscale ip -4`
-          echo "Open in your web browser: http://${IP}:8000"
           IP=`tailscale ip -4`
           echo "Use the following command to debug from the host \`tailscale ssh runner@${IP}\`"
           sleep 18000
