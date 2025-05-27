@@ -35,11 +35,7 @@ jobs:
     steps:
 
       - name: Enable linger and create user session (workaround)
-        if: ${{ startsWith(runner.name, 'blacksmith-') }}
-        run: |
-          sudo loginctl enable-linger runner
-          sudo apt-get install -y systemd-container
-          sudo machinectl shell runner@ /usr/bin/echo "User session created"
+        uses: gbraad-actions/blacksmith-user-session@main
 
       - name: Workaround - fixes compaudit
         run: |
@@ -83,6 +79,28 @@ jobs:
         with:
           prefix: ${{ inputs.prefix_name }}
           command: system
+
+      - name: Fix permissions on shared folders inside the container
+        run: |
+          IMAGE_USER="gbraad"
+          podman exec ${{ inputs.prefix_name }}sys chown ${IMAGE_USER} /home/${IMAGE_USER}/Projects
+          #podman exec ${{ inputs.prefix_name }}sys chown ${IMAGE_USER} /home/${IMAGE_USER}/Documents
+          #podman exec ${{ inputs.prefix_name }}sys chown ${IMAGE_USER} /home/${IMAGE_USER}/Downloads
+
+      - name: Tailscale setup (root)
+        run: |
+          sleep 1
+          until podman exec ${{ inputs.prefix_name }}sys tailscale up \
+            --auth-key ${TAILSCALE_AUTHKEY} \
+            --hostname ${{ inputs.prefix_name }}-${{ inputs.arch }}-${{ steps.runner_id.outputs.last3 }} \
+            --ssh --accept-dns=false \
+            --operator=gbraad \
+            --advertise-exit-node
+          do
+              sleep 0.1
+          done
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY}}
 
       - name: Codium Server
         uses: gbraad-actions/codium-server-action@v1
