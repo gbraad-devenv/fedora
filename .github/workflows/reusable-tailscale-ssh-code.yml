@@ -7,7 +7,7 @@ on:
         description: "Name of the container to run with devenv (e.g., fedora, ...)"
         required: true
         type: string
-        default: "fedora"
+        default: "code"
       runs-on:
         description: "Target runner"
         required: true
@@ -23,6 +23,11 @@ on:
         required: false
         type: boolean
         default: false
+      mode:
+        description: "Mode of operation (serve-web or tunnel)"
+        required: false
+        type: string
+        default: "serve-web"
 
 defaults:
   run:
@@ -105,14 +110,27 @@ jobs:
       - name: Codium Server
         uses: gbraad-actions/codium-server-action@v1
 
-      - name: Hang around
+      - name: Start `code serve-web` service as `gbraad`
+        if: ${{ inputs.mode == 'serve-web' }}
         run: |
           podman exec ${{ inputs.prefix_name }}sys systemctl enable --now code-serveweb@gbraad
-
           until podman exec ${{ inputs.prefix_name }}sys systemctl is-active --quiet code-serveweb@gbraad
           do
                sleep 1
           done
+
+      - name: Start `code tunnel` service as `gbraad`
+        if: ${{ inputs.mode == 'tunnel' }}
+        run: |
+          podman exec ${{ inputs.prefix_name }}sys su - gbraad -c "code tunnel user login --provider github"
+          podman exec ${{ inputs.prefix_name }}sys systemctl enable --now code-tunnel@gbraad
+          until podman exec ${{ inputs.prefix_name }}sys systemctl is-active --quiet code-tunnel@gbraad
+          do
+               sleep 1
+          done          
+
+      - name: Hang around
+        run: |
           IP=`podman exec ${{ inputs.prefix_name }}sys tailscale ip -4`
           echo "Open in your web browser: http://${IP}:8000"
           IP=`tailscale ip -4`

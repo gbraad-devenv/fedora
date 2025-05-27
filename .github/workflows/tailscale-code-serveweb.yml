@@ -11,5 +11,6 @@ jobs:
       prefix_name: "code"
       runs-on: "ubuntu-latest"
       arch: "amd64"
-      sudo-change-shell: true
+      sudo-change-shell: false
+      mode: "serve-web"
     secrets: inherit

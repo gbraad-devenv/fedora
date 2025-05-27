@@ -12,4 +12,5 @@ jobs:
       runs-on: "blacksmith-2vcpu-ubuntu-2404"
       arch: "amd64"
       sudo-change-shell: true
+      mode: "serve-web"
     secrets: inherit

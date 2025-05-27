@@ -1,4 +1,4 @@
-name: tailscale-code-fedora-amd64
+name: tailscale-code-fedora-amd64-blacksmith
 
 on:
   workflow_dispatch:
@@ -9,8 +9,8 @@ jobs:
     uses: ./.github/workflows/reusable-tailscale-ssh-code.yml
     with:
       prefix_name: "code"
-      runs-on: "ubuntu-latest"
+      runs-on: "blacksmith-2vcpu-ubuntu-2404"
       arch: "amd64"
-      sudo-change-shell: false
+      sudo-change-shell: true
       mode: "tunnel"
     secrets: inherit
