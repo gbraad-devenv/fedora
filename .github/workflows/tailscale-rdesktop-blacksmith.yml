@@ -1,4 +1,4 @@
-name: tailscale-rdesktop-fedora-amd64
+name: tailscale-rdesktop-fedora-amd64-blacksmith
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
     uses: ./.github/workflows/reusable-tailscale-ssh-rdesktop.yml
     with:
       prefix_name: "desk"
-      runs-on: "ubuntu-latest"
+      runs-on: "blacksmith-2vcpu-ubuntu-2404"
       arch: "amd64"
-      sudo-change-shell: false
+      sudo-change-shell: true
     secrets: inherit
