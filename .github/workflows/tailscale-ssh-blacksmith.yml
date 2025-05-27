@@ -1,25 +1,15 @@
-name: tailscale-ssh-blacksmith
+name: tailscale-ssh-fedora-amd64-blacksmith
+
 on:
   workflow_dispatch:
 
 jobs:
-  code-test:
-    runs-on: blacksmith
-    container:
-      image: ghcr.io/gbraad-devenv/fedora/dotfiles:41
-      options: --privileged
-    
-    steps:
-      - name: Tailscale
-        uses: gbraad-actions/start-tailscale@v1
-        with:
-          args: --ssh --accept-dns=false --operator=runner --advertise-exit-node
-          hostname: blacksmith
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
-      - name: Hang around
-        run: |
-          IP=`tailscale ip -4`
-          echo "Use the following command to connect \`tailscale ssh gbraad@${IP}\`"
-          sleep infinity
-
+  dotfiles-test:
+    name: Tailscale SSH - Fedora AMD64
+    uses: ./.github/workflows/reusable-tailscale-ssh-devenv.yml
+    with:
+      prefix_name: "fedora"
+      runs-on: "blacksmith-2vcpu-ubuntu-2404"
+      arch: "amd64"
+      sudo-change-shell: true
+    secrets: inherit
