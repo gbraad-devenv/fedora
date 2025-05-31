@@ -1,0 +1,16 @@
+name: tailscale-code-fedora-amd64-warpbuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dotfiles-test:
+    name: Tailscale code - Fedora AMD64
+    uses: ./.github/workflows/reusable-tailscale-ssh-code.yml
+    with:
+      prefix_name: "code"
+      runs-on: "warp-ubuntu-latest-x64-2x"
+      arch: "amd64"
+      sudo-change-shell: true
+      mode: "tunnel"
+    secrets: inherit
