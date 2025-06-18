@@ -61,3 +61,6 @@ RUN dnf install --allowerasing -y \
         zip \
     && dnf clean all \
     && rm -rf /var/cache/yum
+
+# disable tailscaled as this needs userspace networking
+RUN systemctl disable tailscaled
