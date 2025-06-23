@@ -53,7 +53,7 @@ jobs:
       - name: Remove unwanted stuff
         uses: gbraad-actions/remove-unwanted@v1
 
-      - name: Tailscale
+      - name: Tailscale setup (host)
         uses: gbraad-actions/tailscale-action@v1
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
@@ -83,11 +83,11 @@ jobs:
           prefix: ${{ inputs.prefix_name }}
           command: system
 
-      - name: Tailscale setup (root)
+      - name: Tailscale setup (devenv)
         run: |
           sleep 1
           until podman exec ${{ inputs.prefix_name }}sys tailscale up \
-            --auth-key ${{ secrets.TAILSCALE_AUTHKEY}} \
+            --auth-key ${{ secrets.TAILSCALE_AUTHKEY_DEVENV }} \
             --hostname ${{ inputs.prefix_name }}-${{ inputs.arch }}-${{ steps.runner_id.outputs.last3 }} \
             --ssh --accept-dns=false \
             --operator=gbraad \
