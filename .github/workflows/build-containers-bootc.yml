@@ -23,21 +23,15 @@ jobs:
 
       - name: Run podman build - rebase-bootc
         run: |
-          podman build -t ghcr.io/gbraad-devenv/fedora/rebase-bootc:41 \
+          podman build -t ghcr.io/gbraad-devenv/fedora/base-bootc:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/fedora-bootc" \
             --build-arg=BASE_VERSION=41 \
             -f containers/base/Containerfile .
-      - name: Run podman build - systemd-bootc
-        run: |
-          podman build -t ghcr.io/gbraad-devenv/fedora/systemd-bootc:41 \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rebase-bootc" \
-            --build-arg=BASE_VERSION=41 \
-            -f containers/base/systemd/Containerfile .
 
       - name: Login to ghcr.io
         run: |
           podman login ghcr.io -u ${{ github.actor }} \
             -p ${{ secrets.GITHUB_TOKEN }}
-      - name: Push image to ghcr.io - systemd-bootc
+      - name: Push image to ghcr.io - base-bootc
         run: |
-          podman push ghcr.io/gbraad-devenv/fedora/systemd-bootc:41
+          podman push ghcr.io/gbraad-devenv/fedora/base-bootc:41
