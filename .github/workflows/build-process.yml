@@ -24,6 +24,7 @@ jobs:
     uses: ./.github/workflows/reusable-build-diskimage-machine.yml
     with:
       container_name: "base"
+      base_from: "dotfedora-cloud"
     secrets: inherit
 
   build-and-push-bootc:
