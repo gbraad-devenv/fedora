@@ -1,20 +1,5 @@
-ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd"
-ARG BASE_VERSION="41"
-
-FROM ${BASE_IMAGE}:${BASE_VERSION} as kclient-build
-
-RUN dnf install -y \
-	"@development-tools" \
-	gcc-c++ \
-	nodejs \
-	nodejs-devel \
-	pulseaudio-libs-devel
-
-RUN cd /opt \
-	&& git clone https://github.com/gbraad-devenv/kclient \
-	&& cd kclient \
-	&& npm install .
-
+ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base"
+ARG BASE_VERSION="42"
 
 FROM ${BASE_IMAGE}:${BASE_VERSION}
 
@@ -75,7 +60,9 @@ RUN dnf install -y \
     && rm -rf /var/cache/yum
 
 # use release build of kclient
-COPY --from=kclient-build /opt/kclient /opt/kclient
+COPY curl -L https://github.com/gbraad-devenv/kclient/releases/download/0.2/kclient.zip -o /tmp/kclient.zip \
+    && unzip /tmp/kclient.zip -d /opt/ \
+    && rm /tmp/kclient.zip
 COPY assets/kclient.service /etc/systemd/system
 
 # Userspace does not expose 100.100.100.100
