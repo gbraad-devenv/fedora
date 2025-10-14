@@ -74,6 +74,7 @@ RUN dnf install -y \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
+# use release build of kclient
 COPY --from=kclient-build /opt/kclient /opt/kclient
 COPY assets/kclient.service /etc/systemd/system
 
