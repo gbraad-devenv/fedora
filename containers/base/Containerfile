@@ -5,7 +5,14 @@ FROM ${BASE_IMAGE}:${BASE_VERSION}
 
 LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
 
+ARG USER_PASSWD
+
 USER root
+
+# Add user with the expected ID (automated setup does not work atm)
+RUN if [ -n "${USER_PASSWD}" ] ; then \
+        echo "gbraad:${USER_PASSWD}" | sudo chpasswd && echo "Password set to: ${USER_PASSWD}"; \
+    fi
 
 RUN dnf install -y \
         mc links lynx z wget procps-ng \
@@ -48,3 +55,14 @@ RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/r
        gh \
     && dnf clean all \
     && rm -rf /var/cache/yum
+
+USER gbraad
+
+RUN pip install pygments-style-tomorrownightbright
+
+USER root
+
+RUN systemctl enable tailscaled
+
+ENTRYPOINT ["/sbin/init"]
+#CMD ["/sbin/init"]
