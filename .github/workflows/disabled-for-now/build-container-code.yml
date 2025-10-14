@@ -23,9 +23,9 @@ jobs:
       - name: Run podman build - code-cli
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/code-cli:41 \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd" \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-code-cli .
+            -f containers/code/Containerfile .
       - name: Push image to ghcr.io - code-cli
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
@@ -33,9 +33,9 @@ jobs:
       - name: Run podman build - code-cli-bootc
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/code-cli-bootc:41 \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd-bootc" \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-code-cli .
+            -f containers/code/Containerfile .
       - name: Push image to ghcr.io - code-cli-bootc
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \

@@ -1,0 +1,70 @@
+name: reusable-build-diskimage-machine
+
+on:
+  workflow_call:
+    inputs:
+      container_name:
+        required: true
+        type: string
+      base_from:
+        required: true
+        type: string
+
+jobs:
+  machine-machinefile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Dotfiles (install from action)
+        uses: gbraad-dotfiles/install-action@main
+        with:
+          upstream: true
+
+      - name: Write machinekey
+        uses: gbraad-dotfiles/machinekey-action@main
+        with:
+          ssh_private_key: ${{ secrets.SSH_MACHINE_PRIVATE }}
+          ssh_public_key: ${{ secrets.SSH_MACHINE_PUBLIC }}
+
+      - name: Install required virtualization software
+        continue-on-error: true
+        uses: gbraad-actions/setup-virtualization@v2
+
+      - name: Install containers tools (optional)
+        continue-on-error: true
+        uses: gbraad-actions/setup-container-tools@v1
+
+      - name: Install dependencies
+        uses: gbraad-actions/zsh-action@main
+        with:
+          run: |
+            app macadam install
+            app machinefile install
+
+      - name: Run machine build
+        uses: gbraad-actions/zsh-action@main
+        with:
+          run: |
+            machine machinebuild build ./machines/${{ inputs.container_name }}/Machinefile from ${{ inputs.base_from }}
+
+      - name: Export disk image
+        uses: gbraad-actions/zsh-action@main
+        with:
+          run: |
+            mkdir -p ./output/
+            machine machinebuild export ./output/disk.qcow2
+
+      - name: Create and push disk image
+        run: |
+          TAG=$(date +'%y%m%d')
+
+          podman build -t ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest -f machines/Containerfile-disk .
+          podman tag ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:${TAG}
+
+          podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest
+          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:${TAG}

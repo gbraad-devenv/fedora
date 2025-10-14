@@ -1,0 +1,75 @@
+name: reusable-push-manifest
+
+on:
+  workflow_call:
+    inputs:
+      container_name:
+        description: "Name of the container (e.g., base, code, rdesktop)"
+        required: true
+        type: string
+      base_version:
+        description: "Base version identifier"
+        required: true
+        type: string
+      release_tag:
+        description: "Release version identifier"
+        required: true
+        type: string
+
+jobs:
+  prepare-and-push-manifest:
+    name: Prepare and Push Multi-Architecture Manifest
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download OCI artifacts for arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.container_name }}-oci-arm64
+          path: ${{ inputs.container_name }}-oci-arm64
+      - name: Download OCI artifacts for arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.container_name }}-rootfs-arm64
+          path: ${{ inputs.container_name }}-rootfs
+
+      - name: Download rootfs artifacts for amd64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.container_name }}-oci-amd64
+          path: ${{ inputs.container_name }}-oci-amd64
+      - name: Download rootfs artifacts for amd64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.container_name }}-rootfs-amd64
+          path: ${{ inputs.container_name }}-rootfs
+
+      - name: Login to container registry
+        run: |
+          podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push multi-architecture manifest
+        run: |
+          # Create the manifest
+          podman manifest create ${{ inputs.container_name }}-manifest
+
+          # Add OCI artifacts for arm64
+          echo "Adding OCI artifact for architecture: arm64"
+          podman manifest add ${{ inputs.container_name }}-manifest oci:$(pwd)/${{ inputs.container_name }}-oci-arm64
+
+          # Add OCI artifacts for amd64
+          echo "Adding OCI artifact for architecture: amd64"
+          podman manifest add ${{ inputs.container_name }}-manifest oci:$(pwd)/${{ inputs.container_name }}-oci-amd64
+
+          # Push the manifest with multiple tags
+          echo "Pushing manifest with tags: latest, version-specific, and date-based"
+          podman manifest push ${{ inputs.container_name }}-manifest docker://ghcr.io/${{ github.repository }}/${{ inputs.container_name }}:latest
+          podman manifest push ${{ inputs.container_name }}-manifest docker://ghcr.io/${{ github.repository }}/${{ inputs.container_name }}:${{ inputs.base_version }}
+          podman manifest push ${{ inputs.container_name }}-manifest docker://ghcr.io/${{ github.repository }}/${{ inputs.container_name }}:${{ inputs.release_tag }}
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          files: ${{ inputs.container_name }}-rootfs/*.tar.gz

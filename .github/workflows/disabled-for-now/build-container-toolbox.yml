@@ -23,9 +23,9 @@ jobs:
       - name: Run podman build - toolbox
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/toolbox:41 \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rebase" \
+            --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-toolbox .
+            -f containers/toolbox/Containerfile .
       - name: Push image to ghcr.io - toolbox
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \

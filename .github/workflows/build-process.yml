@@ -11,123 +11,35 @@ on:
   pull_request: {}
 
 jobs:
+  build-and-push-base:
+    name: Build and push - Fedora container
+    uses: ./.github/workflows/reusable-build-and-push-container.yml
+    with:
+      container_name: "base"
+      container_base: "fedora"
+    secrets: inherit
 
-  trigger-build-containers:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start containers build
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-containers.yml',
-              ref: context.ref,
-            });
+  build-diskimage-fedora-machine:
+    name: Build and push - Fedora diskimage    
+    uses: ./.github/workflows/reusable-build-diskimage-machine.yml
+    with:
+      container_name: "base"
+      base_from: "dotfedora-cloud"
+    secrets: inherit
 
+  build-and-push-bootc:
+    name: Build and push - Fedora-bootc container
+    uses: ./.github/workflows/reusable-build-and-push-bootable-container.yml
+    with:
+      container_name: "base"
+      container_base: "fedora"
+    secrets: inherit
 
-  trigger-build-containers-bootc:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start bootc containers build
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-containers-bootc.yml',
-              ref: context.ref,
-            });
-
-  trigger-build-containers-workstation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start workstation-bootc containers build
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-containers-workstation.yml',
-              ref: context.ref,
-            });
-
-
-  wait-for-build-containers:
-    runs-on: ubuntu-latest
-    needs: trigger-build-containers
-    steps:
-      - name: Wait for build-containers to complete
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }} 
-          check-name: 'build-containers (ubuntu-latest)'
-          wait-interval: 10
-
-
-  wait-for-build-containers-bootc:
-    runs-on: ubuntu-latest
-    needs: trigger-build-containers-bootc
-    steps:
-      - name: Wait for build-container-centos to complete
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: 'build-containers-bootc (ubuntu-latest)'
-          wait-interval: 10
-
-  wait-for-build-containers-workstation:
-    runs-on: ubuntu-latest
-    needs: trigger-build-containers-workstation
-    steps:
-      - name: Wait for build-container-centos to complete
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: 'build-containers-workstation (ubuntu-latest)'
-          wait-interval: 10
-
-
-  trigger-build-containers-optional:
-    runs-on: ubuntu-latest
-    needs:
-      - wait-for-build-containers
-      - wait-for-build-containers-bootc
-      - wait-for-build-containers-workstation
-    steps:
-      - name: Start optional container - code
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-container-code.yml',
-              ref: context.ref,
-            });
-      - name: Start optional container - rdesktop
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-container-rdesktop.yml',
-              ref: context.ref,
-            });
-      - name: Start optional container - toolbox
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-container-toolbox.yml',
-              ref: context.ref,
-            });
+  build-diskimage-fedora-bootc:
+    needs: build-and-push-bootc
+    name: Build and push - Fedora-bootc diskimage
+    uses: ./.github/workflows/reusable-build-diskimage-bootc.yml
+    with:
+      container_name: "base"
+      container_base: "fedora"
+    secrets: inherit
