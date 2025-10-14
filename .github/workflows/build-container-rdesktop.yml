@@ -25,7 +25,7 @@ jobs:
           podman build -t ghcr.io/gbraad-devenv/fedora/rdesktop:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-rdesktop .
+            -f containers/rdesktop/Containerfile .
       - name: Push image to ghcr.io - rdesktop
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
@@ -35,7 +35,7 @@ jobs:
           podman build -t ghcr.io/gbraad-devenv/fedora/rdesktop-bootc:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/systemd-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-rdesktop .
+            -f containers/rdesktop/Containerfile .
       - name: Push image to ghcr.io - rdesktop-bootc
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \

@@ -25,19 +25,19 @@ jobs:
           podman build -t ghcr.io/gbraad-devenv/fedora/rebase:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/fedora" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-rebase .
+            -f containers/base/Containerfile .
       - name: Run podman build - dotfiles
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/dotfiles:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rebase" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-dotfiles .
+            -f containers/base/dotfiles/Containerfile .
       - name: Run podman build - systemd
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/systemd:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/dotfiles" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-systemd .
+            -f containers/base/systemd/Containerfile .
 
       - name: Login to ghcr.io
         run: |

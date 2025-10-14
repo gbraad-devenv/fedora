@@ -26,13 +26,13 @@ jobs:
           podman build -t ghcr.io/gbraad-devenv/fedora/workstation-rebase-bootc:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/fedora-workstation-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-rebase .
+            -f containers/base/Containerfile .
       - name: Run podman build - workstation-bootc
         run: |
           podman build -t ghcr.io/gbraad-devenv/fedora/workstation-bootc:41 \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/workstation-rebase-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f containers/Containerfile-systemd .
+            -f containers/base/systemd/Containerfile .
 
       - name: Login to ghcr.io
         run: |
