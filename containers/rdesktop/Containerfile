@@ -38,16 +38,16 @@ RUN dnf install -y https://github.com/spotsnel/AltRPMS-KasmVNC/releases/download
     && rm -rf /var/cache/yum \
     && usermod -a -G kasmvnc-cert gbraad
 
-COPY assets/kasmvncserver.service /etc/systemd/system
-COPY assets/kasmvnc.yaml /etc/kasmvnc/
+COPY ../../assets/kasmvncserver.service /etc/systemd/system
+COPY ../../assets/kasmvnc.yaml /etc/kasmvnc/
 
-COPY assets/pulseaudio.service /etc/systemd/system
+COPY ../../assets/pulseaudio.service /etc/systemd/system
 
 RUN usermod -aG pulse-access gbraad \
     && mkdir -p /etc/rdesktop
 
-COPY assets/rdesktop.ini /etc/rdesktop/rdesktop.ini
-COPY assets/rdesktopexec /usr/bin
+COPY ../../assets/rdesktop.ini /etc/rdesktop/rdesktop.ini
+COPY ../../assets/rdesktopexec /usr/bin
 
 RUN chown :users /etc/rdesktop/rdesktop.ini \
     && chmod g+w /etc/rdesktop/rdesktop.ini \
@@ -63,13 +63,13 @@ RUN dnf install -y \
 COPY curl -L https://github.com/gbraad-devenv/kclient/releases/download/0.2/kclient.zip -o /tmp/kclient.zip \
     && unzip /tmp/kclient.zip -d /opt/ \
     && rm /tmp/kclient.zip
-COPY assets/kclient.service /etc/systemd/system
+COPY ../../assets/kclient.service /etc/systemd/system
 
 # Userspace does not expose 100.100.100.100
 #RUN sed -i 's/^FLAGS=".*"/FLAGS="--tun=userspace-networking"/' /etc/default/tailscaled
 
-COPY assets/generate-certs.service /etc/systemd/system
-COPY assets/generate-certs.sh /etc/rdesktop
+COPY ../../assets/generate-certs.service /etc/systemd/system
+COPY ../../assets/generate-certs.sh /etc/rdesktop
 
 USER gbraad
 
@@ -90,4 +90,3 @@ RUN systemctl enable kasmvncserver \
     && git config -f /etc/rdesktop/rdesktop.ini rdesktop.exec "i3-sensible-terminal"
 
 #ENTRYPOINT ["/sbin/init"]
-
