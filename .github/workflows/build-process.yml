@@ -13,7 +13,7 @@ on:
 jobs:
   build-and-push-base:
     name: Build and push - Fedora container
-    uses: ./.github/workflows/reusable-build-and-push-containers.yml
+    uses: ./.github/workflows/reusable-build-and-push-container.yml
     with:
       container_name: "base"
       container_base: "fedora"
@@ -28,7 +28,7 @@ jobs:
 
   build-and-push-bootc:
     name: Build and push - Fedora-bootc container
-    uses: ./.github/workflows/reusable-build-and-push-bootable-containers.yml
+    uses: ./.github/workflows/reusable-build-and-push-bootable-container.yml
     with:
       container_name: "base"
       container_base: "fedora"
