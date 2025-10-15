@@ -35,7 +35,7 @@ jobs:
             --build-arg=BASE_IMAGE="${{ inputs.base_image }}" \
             --build-arg=BASE_VERSION="${{ inputs.base_version }}" \
             --build-arg=ARCH="${{ inputs.arch }}" \
-            -f containers/${{ inputs.container_name }}/Containerfile
+            -f containers/${{ inputs.container_name }}/Containerfile .
 
       - name: Save container as OCI
         run: |
