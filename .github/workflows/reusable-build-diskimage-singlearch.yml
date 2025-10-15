@@ -112,6 +112,10 @@ jobs:
       id: get-tag
       run: |
         echo "TAG=$(date +'%y%m%d')" >> $GITHUB_OUTPUT
+        
+    - name: Rename output file
+      run: |
+        sudo mv ./output/qcow2/disk.qcow2 ./output/disk.qcow2
 
     - name: Wrap disk image in container
       run: |
