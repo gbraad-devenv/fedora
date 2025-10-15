@@ -45,6 +45,7 @@ jobs:
   build-and-push-rdesktop-and-bootc:
     needs: 
       - build-and-push-base
+      - build-and-push-bootc
     name: Build and push - optional rdesktop container + bootc
     uses: ./.github/workflows/reusable-build-container-singlearch.yml
     with:
