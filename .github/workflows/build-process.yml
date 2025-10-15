@@ -64,7 +64,7 @@ jobs:
   build-diskimage-rdesktop-machine:
     needs:
       - build-diskimage-fedora-machine
-    name: Build and push - Fedora diskimage    
+    name: Build and push - Fedora rdesktop diskimage    
     uses: ./.github/workflows/reusable-build-diskimage-machine.yml
     with:
       container_name: "rdesktop"
