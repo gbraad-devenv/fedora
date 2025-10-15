@@ -42,29 +42,20 @@ jobs:
       container_name: "base"
     secrets: inherit
 
-  build-and-push-rdesktop:
+  build-and-push-rdesktop-and-bootc:
     needs: 
       - build-and-push-base
-    name: Build and push - optional rdesktop container
-    uses: ./.github/workflows/reusable-build-and-push-container.yml
-    with:
-      container_name: "rdesktop"
-    secrets: inherit
-
-  build-and-push-rdesktop-bootc:
-    needs: 
-      - build-and-push-bootc
-    name: Build and push - optional rdesktop-bootc container
-    uses: ./.github/workflows/reusable-build-and-push-bootable-container.yml
+    name: Build and push - optional rdesktop container + bootc
+    uses: ./.github/workflows/reusable-build-container-singlearch.yml
     with:
       container_name: "rdesktop"
     secrets: inherit
 
   build-diskimage-rdesktop-bootc:
     needs:
-      - build-and-push-rdesktop-bootc
-    name: Build and push - Fedora-bootc diskimage
-    uses: ./.github/workflows/reusable-build-diskimage-bootc.yml
+      - build-and-push-rdesktop-and-bootc
+    name: Build and push - optional rdesktop-bootc diskimage
+    uses: ./.github/workflows/reusable-build-diskimage-singlearch.yml
     with:
       container_name: "rdesktop"
     secrets: inherit
