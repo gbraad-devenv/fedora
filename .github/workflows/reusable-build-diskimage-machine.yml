@@ -47,6 +47,7 @@ jobs:
       - name: Run machine build
         uses: gbraad-actions/zsh-action@main
         with:
+          as_user: runner
           run: |
             machine machinebuild build ./machines/${{ inputs.container_name }}/Machinefile from ${{ inputs.base_from }}
 
