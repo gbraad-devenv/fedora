@@ -62,10 +62,10 @@ jobs:
         run: |
           TAG=$(date +'%y%m%d')
 
-          podman build -t ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest -f machines/Containerfile-disk .
-          podman tag ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:${TAG}
+          podman build -t ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-cloud-disk:latest -f machines/Containerfile-disk .
+          podman tag ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-cloud-disk:latest ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-cloud-disk:${TAG}
 
           podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
 
-          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:latest
-          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-disk:${TAG}
+          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-cloud-disk:latest
+          podman push ghcr.io/${{ github.repository }}/${{ inputs.container_name }}-cloud-disk:${TAG}
