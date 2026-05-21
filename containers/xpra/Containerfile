@@ -1,0 +1,49 @@
+ARG BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/base"
+ARG BASE_VERSION="42"
+
+FROM ${BASE_IMAGE}:${BASE_VERSION}
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-devenv/fedora"
+
+# xpra repo
+RUN dnf install -y https://xpra.org/repos/Fedora/xpra-repo-latest.rpm \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+
+# xpra + html5 client + virtual display
+RUN dnf install -y \
+        xpra \
+        xpra-html5 \
+        xvfb \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+
+# audio support
+RUN dnf install -y \
+        pulseaudio \
+        alsa-plugins-pulseaudio \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+
+# fonts
+RUN dnf install -y \
+        adobe-source-han-mono-fonts \
+        adobe-source-code-pro-fonts \
+        adobe-source-sans-pro-fonts \
+        adobe-source-serif-pro-fonts \
+        powerline-fonts \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+
+# xpra config: listen on all interfaces, html5 enabled, no auth for internal use
+RUN mkdir -p /etc/xpra \
+    && cat <<'EOF' > /etc/xpra/xpra.conf
+bind-tcp=0.0.0.0:14500
+html=on
+daemon=no
+encoding=auto
+EOF
+
+EXPOSE 14500
+
+USER gbraad
